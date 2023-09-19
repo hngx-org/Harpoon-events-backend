@@ -26,8 +26,7 @@
     "sequelize": "^6.33.0",
     "slugify": "^1.6.5",
     "uuid": "^9.0.1",
-    "validator": "^13.9.0",
-    "xss-clean": "^0.1.4"
+    "validator": "^13.9.0"
   },
   "devDependencies": {
     "eslint": "^8.31.0",
