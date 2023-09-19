@@ -31,6 +31,7 @@ db.sequelize = sequelize;
 
 db.users = require('./userModel.js')(sequelize, DataTypes);
 db.events = require('./eventModel.js')(sequelize, DataTypes);
+db.groups = require('./groupModel.js')(sequelize, DataTypes);
 
 // make you not loose all you data everytime e as it rewrites data
 db.sequelize.sync({ force: false }).then(() => {
