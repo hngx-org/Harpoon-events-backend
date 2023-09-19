@@ -1,4 +1,5 @@
 const db = require('../models');
+const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const UserService = require('./../services/user.service');
@@ -25,7 +26,12 @@ exports.signup = catchAsync(async (req, res, next) => {
 // LOGIN CONTROLLER
 exports.login = catchAsync(async (req, res, next) => {});
 
-exports.protect = catchAsync(async (req, res, next) => {});
+exports.protect = catchAsync(async (req, res, next) => {
+  // getting the token and check if it exist
+  const user = await UserService.protect(req);
+  req.user = user;
+  next();
+});
 
 exports.restricto = (...roles) => catchAsync(async (req, res, next) => {});
 

@@ -11,12 +11,12 @@ router.use(authController.protect);
 
 // Event routes
 router
-  .route('/events')
+  .route('/')
   .get(eventController.getAllEvent)
   .post(eventController.createEvent);
 
 router
-  .route('/events/:eventId')
+  .route('/:eventId')
   .get(eventController.getSingleEvent)
   .patch(eventController.updateEvent)
   .delete(eventController.deleteEvent);
