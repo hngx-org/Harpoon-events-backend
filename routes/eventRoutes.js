@@ -10,7 +10,7 @@ router.use(authController.protect);
 
 router
   .route('/')
-  .get(eventController.getAllEvent)
+  .get(eventController.getAllEvents)
   .post(eventController.createEvent);
 
 router

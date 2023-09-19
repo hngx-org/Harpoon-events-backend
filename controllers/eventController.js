@@ -1,6 +1,7 @@
 const db = require('../models');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const EventService = require('./../services/event.service');
 
 const Event = db.events;
 
@@ -29,10 +30,21 @@ exports.createEvent = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteEvent = catchAsync(async (req, res, next) => {});
+exports.deleteEvent = catchAsync(async (req, res, next) => { });
 
-exports.updateEvent = catchAsync(async (req, res, next) => {});
+exports.updateEvent = catchAsync(async (req, res, next) => { });
 
-exports.getSingleEvent = catchAsync(async (req, res, next) => {});
+exports.getSingleEvent = catchAsync(async (req, res, next) => { });
 
-exports.getAllEvent = catchAsync(async (req, res, next) => {});
+exports.getAllEvents = catchAsync(async (req, res, next) => {
+  const events = await EventService.getAllEvents();
+
+  if (!events) {
+    return next(new AppError('No events found', 404));
+  }
+
+  res.status(200).json({
+    status: 'Events fetched successfully',
+    events,
+  });
+});
