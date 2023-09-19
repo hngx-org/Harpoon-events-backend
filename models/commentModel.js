@@ -1,5 +1,5 @@
 module.exports = (sequelize, Datatypes) => {
-  const Event = sequelize.define('comment', {
+  const Comment = sequelize.define('comment', {
     body: {
       type: Datatypes.TEXT,
       allowNull: false,
