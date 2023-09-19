@@ -1,4 +1,3 @@
-const catchAsync = require("../utils/catchAsync");
 const db = require('../models');
 
 const Event = db.events;
