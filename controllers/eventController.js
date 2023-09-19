@@ -1,6 +1,7 @@
 const db = require('../models');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const EventService = require('./../services/event.service');
 
 const Event = db.events;
 
@@ -108,7 +109,12 @@ exports.getSingleEvent = catchAsync(async (req, res, next) => {
 
 // Getting all events
 exports.getAllEvent = catchAsync(async (req, res, next) => {
-  const events = await Event.findALL();
+  const events = await EventService.getAllEvents();
+
+  if (!events) {
+    return next(new AppError(404, 'No events found'));
+  }
+
   res.status(200).json({
     status: 'sucess!',
     events: events,
