@@ -1,6 +1,7 @@
 const db = require('../models');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const EventService = require('./../services/event.service');
 
 const Event = db.events;
 
@@ -31,7 +32,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 
 // Deleting an event
 exports.deleteEvent = catchAsync(async (req, res, next) => {
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
   const event = await Event.findByPk(eventId);
 
   if (!event) {
@@ -55,7 +56,7 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 
 // Updating an Event
 exports.updateEvent = catchAsync(async (req, res, next) => {
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
 
   const event = await Event.findByPk(eventId);
   if (!event) {
@@ -92,7 +93,7 @@ exports.updateEvent = catchAsync(async (req, res, next) => {
 
 // Getting a single event
 exports.getSingleEvent = catchAsync(async (req, res, next) => {
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
 
   const event = await Event.findByPk(eventId);
 
@@ -108,7 +109,12 @@ exports.getSingleEvent = catchAsync(async (req, res, next) => {
 
 // Getting all events
 exports.getAllEvent = catchAsync(async (req, res, next) => {
-  const events = await Event.findALL();
+  const events = await EventService.getAllEvents();
+
+  if (!events) {
+    return next(new AppError(404, 'No events found'));
+  }
+
   res.status(200).json({
     status: 'sucess!',
     events: events,
