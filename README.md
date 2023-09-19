@@ -25,8 +25,8 @@ To set up the project locally:
 1. Clone the repository to your local machine.
 2. Install project dependencies by running `npm install`.
 3. Create a `.env` file in the root folder using the keys in `sample.env` as guide.
-3. Run `npm start` to ensure your environment is properly setup.
-
+4. Create a database in MySQL named `node_sequelize_api_db`.
+5. Run `npm start` to ensure your environment is properly setup.
 
 ## Contributing
 
