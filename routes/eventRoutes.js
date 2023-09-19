@@ -25,6 +25,5 @@ router
 router
   .route('/events/:eventId/comments')
   .get(commentController.getAllComments);
-// Yet to be done.
 
 module.exports = router;
