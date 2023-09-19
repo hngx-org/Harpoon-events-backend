@@ -24,6 +24,8 @@ To set up the project locally:
 
 1. Clone the repository to your local machine.
 2. Install project dependencies by running `npm install`.
+3. Create a `.env` file in the root folder using the keys in `sample.env` as guide.
+3. Run `npm start` to ensure your environment is properly setup.
 
 
 ## Contributing
@@ -52,4 +54,4 @@ If you have any questions or need further assistance, feel free to contact the p
 - [Mfoniso Ukpabio](https://github.com/AirZED)
 - [Christine Okoth](https://github.com/chriss1525)
 - [Stephen Ujah](https://github.com/ochosteve08)
-- Benjamin Faruna
+- [Benjamin Faruna](http://github.com/BenFaruna)
