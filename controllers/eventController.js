@@ -31,7 +31,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 
 // Deleting an event
 exports.deleteEvent = catchAsync(async (req, res, next) => {
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
   const event = await Event.findByPk(eventId);
 
   if (!event) {
@@ -55,7 +55,7 @@ exports.deleteEvent = catchAsync(async (req, res, next) => {
 
 // Updating an Event
 exports.updateEvent = catchAsync(async (req, res, next) => {
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
 
   const event = await Event.findByPk(eventId);
   if (!event) {
@@ -92,7 +92,7 @@ exports.updateEvent = catchAsync(async (req, res, next) => {
 
 // Getting a single event
 exports.getSingleEvent = catchAsync(async (req, res, next) => {
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
 
   const event = await Event.findByPk(eventId);
 
