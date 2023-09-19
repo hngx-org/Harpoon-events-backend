@@ -1,16 +1,16 @@
 module.exports = (sequelize, Datatypes) => {
   // defines the columns for the group_events table
-  const GroupEvents = sequelize.define('groupEvents', {
+  const Group_events = sequelize.define('group_events', {
    
   event_id: {
-      type: Datatypes.STRING,
+      type: Datatypes.NUMERIC,
       allowNull: false,
     },
     group_id: {
-      type: Datatypes.STRING,
+      type: Datatypes.NUMERIC,
       allowNull: false,
     },
   });
 
-  return GroupEvents;
+  return Group_events;
 };
