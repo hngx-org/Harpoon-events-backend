@@ -1,3 +1,5 @@
+const Comment = require('./commentModel');
+
 module.exports = (sequelize, Datatypes) => {
   const Event = sequelize.define('events', {
     id: {
@@ -41,6 +43,10 @@ module.exports = (sequelize, Datatypes) => {
       allowNull: false,
     },
   });
+
+  // Event relationship with Comment
+  Event.hasMany(Comment);
+  Comment.belongsTo(Event);
 
   return Event;
 };
