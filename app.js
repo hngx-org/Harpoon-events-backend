@@ -14,7 +14,6 @@ const userRouter = require(`${__dirname}/routes/userRoutes`);
 const eventRouter = require(`${__dirname}/routes/eventRoutes`);
 const groupRouter = require(`${__dirname}/routes/groupRoutes`);
 
-
 const app = express();
 
 app.use(cors());
@@ -37,9 +36,8 @@ const limiter = rateLimit({
 
 // test the endpoint http://localhost:8080
 app.get('/', (req, res) => {
-  res.json({ message: "api is working" })
-})
-
+  res.json({ message: 'api is working' });
+});
 
 app.use('/api', limiter);
 
@@ -52,8 +50,7 @@ app.use(xss());
 //MOUNTING THE ROUTES
 app.use(`/api/v1/users`, userRouter);
 app.use(`/api/v1/events`, eventRouter);
-app.use(`/api/v1/groups`, groupRouter);
-
+app.use('/api/groups', groupRouter);
 
 // This middleware can only execute if the above two where not executed, hence it is a better way to handle errors
 // no need to call next though
@@ -63,7 +60,7 @@ app.all(`*`, (req, res, next) => {
     404
   );
   next(err);
-  //if the next function recieves an argument, express assumes its an error
+  //if the next function receives an argument, express assumes its an error
 });
 
 //this middleware catches every error and throws the response for it
