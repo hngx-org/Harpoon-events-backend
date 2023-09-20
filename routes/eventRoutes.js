@@ -22,6 +22,11 @@ router
   .delete(eventController.deleteEvent);
 
 // Comments Routes
-// Yet to be done.
+router
+  .route('/comments')
+  .post(commentController.createComment)
+  .get(commentController.getAllCommentsByEvent);
+// Update a Comment:
+//Delete a Comment:
 
 module.exports = router;
