@@ -3,18 +3,20 @@
 [Describe the changes you've made and why they are necessary.]
 
 ## Type of change
+
 What type of changes did you make with your code. Put an `x` in the boxes that apply.
 
 - [ ] Bug fix
-- [ ] New feature
+- [X] New feature
 - [ ] Documentation update
 - [ ] Code refactor
 - [ ] Other (please describe): ______
 
 ## Checklist
+
 Put an `x` in the boxes that apply.
 
-- [ ] I have read the contribution guidelines and my code follows them.
+- [X] I have read the contribution guidelines and my code follows them.
 - [ ] My code has been tested and works as intended.
 - [ ] I have updated the documentation to reflect the changes.
 - [ ] I have added tests to cover my changes.
