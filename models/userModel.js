@@ -37,9 +37,21 @@ module.exports = (sequelize, Datatypes) => {
 
   // User relationship with Event
   User.hasMany(Event, {
-    foreignKey: "creator",
+    foreignKey: "creator", // Use the correct foreign key
   });
-  Event.belongsTo(User);
+  Event.belongsTo(User, {
+    foreignKey: "creator", // Match the foreign key specified above
+  });
+
+  // User relationship with as Interested_Events
+  User.belongsToMany(Event, {
+    through: InterestedEvents,
+    key: 'user_id',
+  });
+  Event.belongsToMany(User, {
+    through: InterestedEvents,
+    key: 'event_id',
+  });
 
   // User relationship with Comments
   User.hasMany(Comments);
