@@ -4,23 +4,27 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const UserService = require('./../services/user.service');
 
+const { signupValidationSchema } = require('../validations');
+
 //SIGN UP CONTROLLER
 exports.signup = catchAsync(async (req, res, next) => {
-  const user = await UserService.signup({
-    name: req.body.name,
-    email: req.body.email,
-    image: req.body.image,
-    password: req.body.password,
-  });
+  try {
+    const data = await signupValidationSchema.validateAsync({ ...req.body });
 
-  if (!user) {
-    return next(new AppError('User not created successfully', 400));
+    const user = await UserService.signup(data);
+
+    if (!user) {
+      return next(new AppError('User not created successfully', 400));
+    }
+
+    res.status(201).json({
+      status: 'success',
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
   }
-
-  res.status(201).json({
-    status: 'success',
-    user,
-  });
 });
 
 // LOGIN CONTROLLER
