@@ -59,3 +59,23 @@ exports.protect = async (req) => {
 
   return user;
 };
+
+exports.updateUser = async (userId, req) => {
+  const user = await User.findByPk(userId);
+  const { name, email, image } = req.body;
+
+  if (!user) {
+      throw new AppError('User not found', 404);
+  }
+
+  const updatedInfo = {
+    name: name, 
+    email: email, 
+    image: image
+  };
+  await User.update(updatedInfo, {
+      where: { id: userId },
+  });
+
+  return await User.findByPk(userId);
+};
