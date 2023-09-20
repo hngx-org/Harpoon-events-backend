@@ -1,7 +1,7 @@
 /**
  * Retrieves a single event by its ID.
  *
- * @param {number} eventId - The ID of the event to retrieve.
+ * @param {number | string} eventId - The ID of the event to retrieve.
  * @returns {Promise<Object|null>} A promise that resolves to the retrieved event object or null if not found.
  * @throws {Error} If there's an error while fetching the event.
  */
@@ -50,7 +50,7 @@ exports.createEvent = async (req) => {
 /**
  * Deletes an event by its ID.
  *
- * @param {number} eventId - The ID of the event to delete.
+ * @param {number | string} eventId - The ID of the event to delete.
  * @param {object} req - The request object containing user details.
  * @param {string} req.user.id - The ID of the user making the request.
  * @returns {Promise<number>} A promise that resolves to the number of deleted events (0 or 1).
@@ -76,7 +76,7 @@ exports.deleteEvent = async (eventId, req) => {
 /**
  * Updates an event by its ID.
  *
- * @param {number} eventId - The ID of the event to update.
+ * @param {number | string} eventId - The ID of the event to update.
  * @param {object} req - The request object containing updated event details.
  * @param {string} req.body.title - The updated title of the event.
  * @param {string} req.body.description - The updated description of the event.
