@@ -1,48 +1,54 @@
-module.exports = (sequelize, Datatypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('events', {
     id: {
-      type: Datatypes.STRING(60),
-      primaryKey: true
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
     title: {
-      type: Datatypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
     description: {
-      type: Datatypes.STRING(255),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
     creator: {
-      type: Datatypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
     location: {
-      type: Datatypes.STRING(1024),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
     start_date: {
-      type: Datatypes.DATEONLY,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     end_date: {
-      type: Datatypes.DATEONLY,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     start_time: {
-      type: Datatypes.TIME,
+      type: DataTypes.TIME,
       allowNull: false,
     },
     end_time: {
-      type: Datatypes.TIME,
+      type: DataTypes.TIME,
       allowNull: false,
     },
     thumbnail: {
-      type: Datatypes.STRING(255),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
   });
 
-    Event.associate = (models) => {
+  Event.associate = (models) => {
     // Event relationship with User (creator)
     Event.belongsTo(models.User, {
       foreignKey: 'creator',
@@ -67,6 +73,6 @@ module.exports = (sequelize, Datatypes) => {
     Event.hasMany(models.Comment, {
       foreignKey: 'event_id',
     });
-    };
+  };
   return Event;
 };

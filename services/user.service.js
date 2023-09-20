@@ -1,4 +1,3 @@
-
 const { promisify } = require('util');
 const db = require('../models');
 const bcrypt = require('bcryptjs');
@@ -7,7 +6,6 @@ const jwt = require('jsonwebtoken');
 
 // create main model
 const User = db.users;
-
 
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await User.findOne({ where: { email } });
@@ -23,7 +21,6 @@ exports.signup = async ({ name, email, image, password }) => {
     password: hashedPassword,
   });
 };
-
 
 exports.login = async ({ email, password }) => {
   // Check if a user with the provided email exists in the database
@@ -46,37 +43,16 @@ exports.login = async ({ email, password }) => {
   return validUser;
 };
 
-
 exports.Google = async ({ name, email, image }) => {
-  const User = await User.findOne({ where: { email } });
-  if (!User) {
-    throw new AppError('user not found', 401);
-  }
- else if (User) {
-    return User;
-  } else {
+  const user = await User.findOne({ where: { email } });
+  if (!user) {
     return await User.create({
       name,
       email,
       image,
     });
-  }
-};
-
-
-exports.Twitter = async ({ name, email, image }) => {
-  const User = await User.findOne({ where: { email } });
-  if (!User) {
-    throw new AppError('user not found', 401);
-  }
- else if (User) {
-    return User;
   } else {
-    return await User.create({
-      name,
-      email,
-      image,
-    });
+    return user;
   }
 };
 
@@ -86,9 +62,11 @@ exports.protect = async (req) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
+    console.log(req.headers.authorization.split(' ')[1]);
     token = req.headers.authorization.split(' ')[1];
   }
 
+  console.log(token);
   //validate token
   if (!token) {
     throw new AppError('Log in to get access', 401);
@@ -106,5 +84,3 @@ exports.protect = async (req) => {
 
   return user;
 };
-
-
