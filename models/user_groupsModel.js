@@ -1,26 +1,37 @@
-module.exports = (sequelize, Datatypes) => {
-  // defines the columns for the user_groups table
-  const UserGroups = sequelize.define('user_groups', {
-   
-  user_id: {
-      type: Datatypes.STRING,
+module.exports = (sequelize, DataTypes) => {
+  const UserGroup = sequelize.define('user_groups', {
+    // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
+    user_id: {
+      type: DataTypes.STRING(255),
       allowNull: false,
-      // references: {
-      //   model: User,
-      //   key: 'id',
-      // }
+      references: {
+        model: 'users',
+        key: 'id',
+      },
     },
     group_id: {
-      type: Datatypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
-      // references: {
-      //   model: Group,
-      //   key: 'id',
-      // }
+      references: {
+        model: 'groups',
+        key: 'id',
+      },
     },
   });
 
-  UserGroups.removeAttribute('id')
+  UserGroup.associate = (models) => {
+    // Define associations as needed
+    UserGroup.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      as: 'user',
+    });
 
-  return UserGroups;
+    UserGroup.belongsTo(models.Group, {
+      foreignKey: 'group_id',
+      as: 'group',
+    });
+  };
+
+  return UserGroup;
 };
+
