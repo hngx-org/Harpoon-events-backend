@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 // create main model
 const User = db.users;
 
+
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await User.findOne({ where: { email } });
   if (existingUser) {
@@ -22,6 +23,7 @@ exports.signup = async ({ name, email, image, password }) => {
   });
 };
 
+
 exports.login = async ({ email, password }) => {
   const validUser = await User.findOne({ where: { email } });
   if (!validUser) {
@@ -32,6 +34,40 @@ exports.login = async ({ email, password }) => {
     throw AppError('wrong credentials', 401);
   }
   if (match) return validUser;
+};
+
+
+exports.Google = async ({ name, email, image }) => {
+  const User = await User.findOne({ where: { email } });
+  if (!User) {
+    throw new AppError('user not found', 401);
+  }
+  if (User) {
+    return User;
+  } else {
+    return await User.create({
+      name,
+      email,
+      image,
+    });
+  }
+};
+
+
+exports.Twitter = async ({ name, email, image }) => {
+  const User = await User.findOne({ where: { email } });
+  if (!User) {
+    throw new AppError('user not found', 401);
+  }
+  if (User) {
+    return User;
+  } else {
+    return await User.create({
+      name,
+      email,
+      image,
+    });
+  }
 };
 
 exports.protect = async (req) => {
