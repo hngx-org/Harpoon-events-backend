@@ -123,7 +123,7 @@ exports.updateEvent = async (eventId, req) => {
 /**
  * Retrieves a single event by its ID.
  *
- * @param {number} eventId - The ID of the event to retrieve.
+ * @param {number | string} eventId - The ID of the event to retrieve.
  * @returns {Promise<Object|null>} A promise that resolves to the retrieved event object or null if not found.
  * @throws {AppError} If the event is not found.
  */
