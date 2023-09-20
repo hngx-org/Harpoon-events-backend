@@ -1,10 +1,8 @@
-const express = require('express');
+const router  = require('express').Router();
 
 const eventController = require('../controllers/eventController');
 const authController = require('../controllers/authController');
 const commentController = require('../controllers/commentController');
-
-const router = express.Router();
 
 // middleware to check if user is logged in
 router.use(authController.protect);
@@ -25,8 +23,13 @@ router
 router
   .route('/events/:eventId/comments')
   .post(commentController.createComment)
-.get(commentController.getAllComments);
+  .get(commentController.getAllComments);
+
+
+
 // Update a Comment:
+
+
 //Delete a Comment:
 
   

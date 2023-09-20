@@ -1,15 +1,22 @@
-module.exports = (sequelize, Datatypes) => {
+/**
+ * Comment model definition.
+ *
+ * @param {import('sequelize').Sequelize} sequelize - The Sequelize instance.
+ * @param {import('sequelize').DataTypes} DataTypes - The Sequelize data types.
+ * @returns {import('sequelize').Model} The Comment model.
+ */
+module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define('comment', {
     body: {
-      type: Datatypes.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     user_id: {
-      type: Datatypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     event_id: {
-      type: Datatypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   });
