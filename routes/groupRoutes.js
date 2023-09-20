@@ -1,11 +1,11 @@
 const express = require('express');
 const groupController = require('../controllers/groupController');
-// const authController = require('../controllers/authController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 // * Middleware to check if user is logged in
-// router.use(authController.protect);
+router.use(authController.protect);
 
 // Routes for Groups
 router
