@@ -1,17 +1,11 @@
 const User = require('./userModel');
-const Event = require('./eventModel');
+const Event = require('./eventModel'); 
 
 
 module.exports = (sequelize, Datatypes) => {
-  const Comment = sequelize.define('comments', {
-    id: {
-      type: Datatypes.STRING(60),
-      primaryKey: true,
-    },
-    body: {
-      type: Datatypes.STRING(1024),
-      allowNull: false,
-    },
+  // defines the columns for the group_events table
+  const InterestedEvents = sequelize.define('interested_events', {
+      
     user_id: {
       type: Datatypes.STRING(60),
       allowNull: false,
@@ -30,5 +24,7 @@ module.exports = (sequelize, Datatypes) => {
     },
   });
 
-  return Comment;
+  InterestedEvents.removeAttribute('id')
+
+  return GroupEvents;
 };

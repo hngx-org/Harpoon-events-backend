@@ -3,22 +3,27 @@ const Group = require('./groupModel');
 
 module.exports = (sequelize, Datatypes) => {
   // defines the columns for the user_groups table
-  const User_groups = sequelize.define('user_groups', {
+  const UserGroups = sequelize.define('user_groups', {
    
   user_id: {
-      type: Datatypes.INTEGER,
+      type: Datatypes.STRING(60),
       allowNull: false,
+      references: {
+        model: User,
+        key: 'id',
+      }
     },
     group_id: {
-      type: Datatypes.INTEGER,
+      type: Datatypes.STRING(60),
       allowNull: false,
+      references: {
+        model: Group,
+        key: 'id',
+      }
     },
   });
-  
-// Define the foreign key relationships
-  User_groups.belongsTo(User, { foreignKey: 'user_id' });
-  User_groups.belongsTo(Group, { foreignKey: 'group_id' });
 
+  UserGroups.removeAttribute('id')
 
-  return User_groups;
+  return UserGroups;
 };
