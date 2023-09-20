@@ -41,8 +41,9 @@ exports.login = catchAsync(async (req, res, next) => {
     req.body
   );
   const user = await UserService.login({ email, password });
+
   if (user) {
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
     const { password: hashPassword, ...User } = user.dataValues;
 
     res.cookie('access_token', token, {
