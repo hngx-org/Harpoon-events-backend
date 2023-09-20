@@ -17,7 +17,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 // Deleting an event
 exports.deleteEvent = catchAsync(async (req, res, next) => {
 
-  const eventId = req.params.id;
+  const eventId = req.params.eventId;
 
   await EventService.deleteEvent(eventId);
   res.status(204).json({
