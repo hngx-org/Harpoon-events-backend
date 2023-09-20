@@ -19,9 +19,9 @@ exports.signup = catchAsync(async (req, res, next) => {
     password,
   });
 
-  if (!user) {
-    return next(new AppError('User not created successfully', 400));
-  }
+    if (!user) {
+      return next(new AppError('User not created successfully', 400));
+    }
 
   res.status(201).json({
     status: 'success',
