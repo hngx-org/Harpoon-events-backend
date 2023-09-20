@@ -3,7 +3,7 @@ module.exports = (sequelize, Datatypes) => {
   const UserGroups = sequelize.define('user_groups', {
    
   user_id: {
-      type: Datatypes.STRING(60),
+      type: Datatypes.STRING,
       allowNull: false,
       // references: {
       //   model: User,
@@ -11,7 +11,7 @@ module.exports = (sequelize, Datatypes) => {
       // }
     },
     group_id: {
-      type: Datatypes.STRING(60),
+      type: Datatypes.STRING,
       allowNull: false,
       // references: {
       //   model: Group,

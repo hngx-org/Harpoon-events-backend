@@ -4,10 +4,9 @@ const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
 const jwt = require('jsonwebtoken');
 
-// create meain model
+// create main model
 const User = db.users;
 
-//SIGN UP CONTROLLER
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await User.findOne({ where: { email } });
   if (existingUser) {
@@ -21,6 +20,18 @@ exports.signup = async ({ name, email, image, password }) => {
     image,
     password: hashedPassword,
   });
+};
+
+exports.login = async ({ email, password }) => {
+  const validUser = await User.findOne({ where: { email } });
+  if (!validUser) {
+    throw new AppError('user not found', 401);
+  }
+  const match = await bcrypt.compare(password, validUser.password);
+  if (!match) {
+    throw AppError('wrong credentials', 401);
+  }
+  if (match) return validUser;
 };
 
 exports.protect = async (req) => {
@@ -48,13 +59,3 @@ exports.protect = async (req) => {
 
   return user;
 };
-
-// LOGIN CONTROLLER
-exports.login = () => {};
-
-exports.forgetPassword = async () => {};
-
-exports.resetPassword = async () => {};
-
-// update password of password that is logged in
-exports.updatePassword = async () => {};

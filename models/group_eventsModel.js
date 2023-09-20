@@ -3,7 +3,11 @@ module.exports = (sequelize, Datatypes) => {
   const GroupEvents = sequelize.define('group_events', {
    
   event_id: {
+<<<<<<< HEAD
       type: Datatypes.STRING(60),
+=======
+      type: Datatypes.STRING,
+>>>>>>> master
       allowNull: false,
       // references: {
       //   model: Event,
@@ -11,7 +15,11 @@ module.exports = (sequelize, Datatypes) => {
       // }
     },
     group_id: {
+<<<<<<< HEAD
       type: Datatypes.STRING(60),
+=======
+      type: Datatypes.STRING,
+>>>>>>> master
       allowNull: false,
       // references: {
       //   model: Group,
