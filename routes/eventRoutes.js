@@ -22,6 +22,8 @@ router
   .delete(eventController.deleteEvent);
 
 // Comments Routes
-// Yet to be done.
+router
+  .route('/events/:eventId/comments')
+  .get(commentController.getAllComments);
 
 module.exports = router;
