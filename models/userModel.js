@@ -1,15 +1,19 @@
-module.exports = (sequelize, Datatypes) => {
+module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('users', {
     id: {
-      type: Datatypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
+      allowNull: false,
     },
     name: {
-      type: Datatypes.STRING(120),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
     email: {
-      type: Datatypes.STRING(120),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       unique: true,
       validate: {
@@ -17,7 +21,8 @@ module.exports = (sequelize, Datatypes) => {
       },
     },
     avatar: {
-      type: Datatypes.STRING(255),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
     },
   });
 
@@ -29,13 +34,13 @@ module.exports = (sequelize, Datatypes) => {
     models.Group.belongsToMany(User, {
       through: models.UserGroups,
     });
-  
+
     // User relationship with Event
     User.hasMany(models.Event, {
-      foreignKey: "creator",
+      foreignKey: 'creator',
     });
     models.Event.belongsTo(User);
-  
+
     // User relationship with as Interested_Events
     User.belongsToMany(models.Event, {
       through: models.InterestedEvents,
@@ -45,11 +50,11 @@ module.exports = (sequelize, Datatypes) => {
       through: models.InterestedEvents,
       foreignKey: 'event_id',
     });
-  
+
     // User relationship with Comments
     User.hasMany(models.Comments);
     models.Comments.belongsTo(User);
-  }
+  };
 
   return User;
 };

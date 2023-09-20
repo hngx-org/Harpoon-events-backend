@@ -1,7 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const Image = sequelize.define('images', {
     id: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     url: {
@@ -32,4 +33,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return Image;
 };
-

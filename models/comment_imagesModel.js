@@ -2,7 +2,8 @@ module.exports = (sequelize, DataTypes) => {
   const CommentImages = sequelize.define('comment_images', {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     comment_id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'comments',
@@ -10,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     image_id: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'images',
@@ -33,4 +35,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return CommentImages;
 };
-

@@ -1,11 +1,13 @@
-module.exports = (sequelize, Datatypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('groups', {
     id: {
-      type: Datatypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     title: {
-      type: Datatypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
   });
@@ -16,9 +18,9 @@ module.exports = (sequelize, Datatypes) => {
       through: models.GroupEvents,
     });
     models.Event.belongsToMany(Group, {
-      through: models.GroupEvents
+      through: models.GroupEvents,
     });
-  }
+  };
 
   return Group;
 };
