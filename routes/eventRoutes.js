@@ -11,22 +11,25 @@ router.use(authController.protect);
 
 // Event routes
 router
-  .route('/events')
+  .route('/')
   .get(eventController.getAllEvent)
   .post(eventController.createEvent);
 
 router
-  .route('/events/:eventId')
+  .route('/:eventId')
   .get(eventController.getSingleEvent)
   .patch(eventController.updateEvent)
   .delete(eventController.deleteEvent);
 
 // Comments Routes
 router
-  .route('/comments')
+  .route('/events/:eventId/comments')
   .post(commentController.createComment)
-  .get(commentController.getAllCommentsByEvent);
+.get(commentController.getAllComments);
 // Update a Comment:
 //Delete a Comment:
+
+  
+
 
 module.exports = router;
