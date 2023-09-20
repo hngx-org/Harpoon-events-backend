@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     image_id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(60),
       allowNull: false,
       references: {
         model: 'images',
@@ -23,9 +23,11 @@ module.exports = (sequelize, DataTypes) => {
   CommentImages.associate = (models) => {
     CommentImages.belongsTo(models.Comment, {
       foreignKey: 'comment_id',
+      foreignKeyConstraint: true,
     });
     CommentImages.belongsTo(models.Image, {
       foreignKey: 'image_id',
+      foreignKeyConstraint: true,
     });
   };
 

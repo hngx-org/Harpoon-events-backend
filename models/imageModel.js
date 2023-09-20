@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     Image.belongsToMany(models.Comment, {
       through: models.CommentImages,
       foreignKey: 'image_id',
+      foreignKeyConstraint: true,
     });
 
     // Image relationship with Group (group image)
