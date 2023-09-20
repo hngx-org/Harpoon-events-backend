@@ -35,6 +35,7 @@ db.groups = require('./groupModel.js')(sequelize, DataTypes);
 db.comments = require('./commentModel.js')(sequelize, DataTypes);
 db.groupEvents = require('./group_eventsModel.js')(sequelize, DataTypes);
 db.userGroups = require('./user_groupsModel.js')(sequelize, DataTypes);
+db.interestedEvents = require('./interestedEventsModel')(sequelize, DataTypes);
 
 // RelationShips
 // db.users.hasMany(db.events, {

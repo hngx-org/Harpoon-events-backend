@@ -1,9 +1,3 @@
-const Group = require('./groupModel');
-const UserGroups = require('./user_groupsModel');
-const Comments = require('./commentModel');
-const Event = require('./eventModel');
-const InterestedEvents = require('./interestedEventsModel');
-
 module.exports = (sequelize, Datatypes) => {
   const User = sequelize.define('users', {
     id: {
@@ -27,33 +21,35 @@ module.exports = (sequelize, Datatypes) => {
     },
   });
 
-  // User relationships with Group
-  User.belongsToMany(Group, {
-    through: UserGroups,
-  });
-  Group.belongsToMany(User, {
-    through: UserGroups,
-  });
-
-  // User relationship with Event
-  User.hasMany(Event, {
-    foreignKey: "creator",
-  });
-  Event.belongsTo(User);
-
-  // User relationship with as Interested_Events
-  User.belongsToMany(Event, {
-    through: InterestedEvents,
-    key: 'user_id',
-  });
-  Event.belongsToMany(User, {
-    through: InterestedEvents,
-    key: 'event_id',
-  });
-
-  // User relationship with Comments
-  User.hasMany(Comments);
-  Comments.belongsTo(User);
+  User.associate = (models) => {
+    // User relationships with Group
+    User.belongsToMany(models.Group, {
+      through: models.UserGroups,
+    });
+    models.Group.belongsToMany(User, {
+      through: models.UserGroups,
+    });
+  
+    // User relationship with Event
+    User.hasMany(models.Event, {
+      foreignKey: "creator",
+    });
+    models.Event.belongsTo(User);
+  
+    // User relationship with as Interested_Events
+    User.belongsToMany(models.Event, {
+      through: models.InterestedEvents,
+      foreignKey: 'user_id',
+    });
+    models.Event.belongsToMany(User, {
+      through: models.InterestedEvents,
+      foreignKey: 'event_id',
+    });
+  
+    // User relationship with Comments
+    User.hasMany(models.Comments);
+    models.Comments.belongsTo(User);
+  }
 
   return User;
 };
