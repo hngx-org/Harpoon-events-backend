@@ -6,11 +6,11 @@ module.exports = (sequelize, Datatypes) => {
   const User_groups = sequelize.define('user_groups', {
    
   user_id: {
-      type: Datatypes.INTEGER,
+      type: Datatypes.STRING,
       allowNull: false,
     },
     group_id: {
-      type: Datatypes.INTEGER,
+      type: Datatypes.STRING,
       allowNull: false,
     },
   });

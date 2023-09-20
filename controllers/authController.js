@@ -1,34 +1,97 @@
-const db = require('../models');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const UserService = require('./../services/user.service');
+const {
+  signInValidationSchema,
+  signupValidationSchema,
+} = require('../validations');
 
-const { signupValidationSchema } = require('../validations');
-
-//SIGN UP CONTROLLER
 exports.signup = catchAsync(async (req, res, next) => {
-  try {
-    const data = await signupValidationSchema.validateAsync({ ...req.body });
+  const { name, email, image, password } =
+    await signupValidationSchema.validateAsync(req.body);
+  const user = await UserService.signup({
+    name,
+    email,
+    image,
+    password,
+  });
 
-    const user = await UserService.signup(data);
+  if (!user) {
+    return next(new AppError('User not created successfully', 400));
+  }
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    if (!user) {
-      return next(new AppError('User not created successfully', 400));
-    }
+  res.cookie('access_token', token, {
+    httpOnly: true,
+    sameSite: 'None',
+    secure: true,
+    expiresIn: '15m',
+  });
 
-    res.status(201).json({
-      status: 'success',
-      user,
+  res.status(201).json({
+    status: 'success',
+    user,
+    token,
+  });
+});
+
+exports.login = catchAsync(async (req, res, next) => {
+  const { email, password } = await signInValidationSchema.validateAsync(
+    req.body
+  );
+  const user = await UserService.login({ email, password });
+  if (user) {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const { password: hashPassword, ...User } = user.dataValues;
+
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true,
+      maxAge: 30 * 60 * 1000,
     });
-  } catch (error) {
-    console.log(error);
-    throw new Error(error);
+    return res.status(200).json({ ...User, token });
   }
 });
 
-// LOGIN CONTROLLER
-exports.login = catchAsync(async (req, res, next) => {});
+exports.Twitter = catchAsync(async (req, res, next) => {
+  const { name, email, image } = req.body;
+
+  const User = await UserService.Twitter({ name, email, image });
+  if (User) {
+    const token = jwt.sign({ id: User._id }, process.env.JWT_SECRET);
+
+    res
+      .cookie('access_token', token, {
+        httpOnly: true,
+        sameSite: 'None',
+        secure: true,
+        expiresIn: '15m',
+      })
+      .status(201)
+      .json({ ...User, token });
+  }
+});
+
+exports.Google = catchAsync(async (req, res, next) => {
+  const { name, email, image } = req.body;
+
+  const User = await UserService.Twitter({ name, email, image });
+  if (User) {
+    const token = jwt.sign({ id: User._id }, process.env.JWT_SECRET);
+
+    res
+      .cookie('access_token', token, {
+        httpOnly: true,
+        sameSite: 'None',
+        secure: true,
+        expiresIn: '15m',
+      })
+      .status(201)
+      .json({ ...User, token });
+  }
+});
 
 exports.protect = catchAsync(async (req, res, next) => {
   // getting the token and check if it exist
@@ -36,12 +99,3 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = user;
   next();
 });
-
-exports.restricto = (...roles) => catchAsync(async (req, res, next) => {});
-
-exports.forgetPassword = catchAsync(async (req, res, next) => {});
-
-exports.resetPassword = catchAsync(async (req, res, next) => {});
-
-// update password of password that is logged in
-exports.updatePassword = catchAsync(async (req, res, next) => {});
