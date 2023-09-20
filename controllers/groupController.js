@@ -30,3 +30,26 @@ exports.getAllGroups = async (req, res, next) => {
     next(error);
   }
 };
+
+// Controller for fetching a single group by ID
+exports.getGroupById = async (req, res, next) => {
+  try {
+    const groupId = req.params.groupId;
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+      // Return an error if the group doesn't exist
+      return res.status(404).json({
+        status: 'error',
+        message: 'Group not found',
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      group,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
