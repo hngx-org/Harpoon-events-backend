@@ -81,6 +81,7 @@ exports.protect = async (req) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
+  //validate token
   if (!token) {
     throw new AppError('Log in to get access', 401);
   }
