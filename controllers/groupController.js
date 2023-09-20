@@ -81,3 +81,28 @@ exports.updateGroupById = async (req, res, next) => {
     next(error);
   }
 };
+
+// Controller for deleting a group by ID
+exports.deleteGroupById = async (req, res, next) => {
+  try {
+    const groupId = req.params.groupId;
+    const group = await Group.findByPk(groupId);
+
+    if (!group) {
+      // Return an error if the group doesn't exist
+      return res.status(404).json({
+        status: 'error',
+        message: 'Group not found',
+      });
+    }
+
+    await group.destroy();
+
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
