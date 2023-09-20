@@ -1,30 +1,37 @@
-// const User = require('./userModel');
-// const Event = require('./eventModel'); 
-
-
-module.exports = (sequelize, Datatypes) => {
-  // defines the columns for the group_events table
-  const InterestedEvents = sequelize.define('interested_events', {
-      
-    user_id: {
-      type: Datatypes.STRING(60),
-      allowNull: false,
-      // references: {
-      //   model: User,
-      //   key: 'id',
-      // }
-    },
+module.exports = (sequelize, DataTypes) => {
+  const InterestedEvent = sequelize.define('interested_events', {
+    // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     event_id: {
-      type: Datatypes.STRING(60),
+      type: DataTypes.STRING(255),
       allowNull: false,
-      // references: {
-      //   model: Event,
-      //   key: 'id',
-      // }
+      references: {
+        model: 'events',
+        key: 'id',
+      },
+    },
+    user_id: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
     },
   });
 
-  InterestedEvents.removeAttribute('id')
+  InterestedEvent.associate = (models) => {
+    // Define associations as needed
+    InterestedEvent.belongsTo(models.Event, {
+      foreignKey: 'event_id',
+      as: 'event',
+    });
 
-  return InterestedEvents;
+    InterestedEvent.belongsTo(models.User, {
+      foreignKey: 'user_id',
+      as: 'user',
+    });
+  };
+
+  return InterestedEvent;
 };
+

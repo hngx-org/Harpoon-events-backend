@@ -1,34 +1,37 @@
-module.exports = (sequelize, Datatypes) => {
-  // defines the columns for the group_events table
-  const GroupEvents = sequelize.define('group_events', {
-   
-  event_id: {
-<<<<<<< HEAD
-      type: Datatypes.STRING(60),
-=======
-      type: Datatypes.STRING,
->>>>>>> master
-      allowNull: false,
-      // references: {
-      //   model: Event,
-      //   key: 'id',
-      // }
-    },
+module.exports = (sequelize, DataTypes) => {
+  const GroupEvent = sequelize.define('group_events', {
+    // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     group_id: {
-<<<<<<< HEAD
-      type: Datatypes.STRING(60),
-=======
-      type: Datatypes.STRING,
->>>>>>> master
+      type: DataTypes.STRING(255),
       allowNull: false,
-      // references: {
-      //   model: Group,
-      //   key: 'id',
-      // }
+      references: {
+        model: 'groups',
+        key: 'id',
+      },
+    },
+    event_id: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      references: {
+        model: 'events',
+        key: 'id',
+      },
     },
   });
 
-  GroupEvents.removeAttribute('id')
+  GroupEvent.associate = (models) => {
+    // Define associations as needed
+    GroupEvent.belongsTo(models.Group, {
+      foreignKey: 'group_id',
+      as: 'group',
+    });
 
-  return GroupEvents;
+    GroupEvent.belongsTo(models.Event, {
+      foreignKey: 'event_id',
+      as: 'event',
+    });
+  };
+
+  return GroupEvent;
 };
+
