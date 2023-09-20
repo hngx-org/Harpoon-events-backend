@@ -16,7 +16,6 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 
 // Deleting an event
 exports.deleteEvent = catchAsync(async (req, res, next) => {
-
   const eventId = req.params.eventId;
 
   await EventService.deleteEvent(eventId);
@@ -34,7 +33,7 @@ exports.updateEvent = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success!',
-    event: updatedEvent,
+    event,
   });
 });
 
