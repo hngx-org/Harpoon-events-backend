@@ -5,11 +5,11 @@ module.exports = (sequelize, Datatypes) => {
   const Group_events = sequelize.define('group_events', {
    
   event_id: {
-      type: Datatypes.INTEGER,
+      type: Datatypes.STRING,
       allowNull: false,
     },
     group_id: {
-      type: Datatypes.INTEGER,
+      type: Datatypes.STRING,
       allowNull: false,
     },
   });
