@@ -1,3 +1,4 @@
+
 const { promisify } = require('util');
 const db = require('../models');
 const bcrypt = require('bcryptjs');
@@ -11,7 +12,7 @@ const User = db.users;
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await User.findOne({ where: { email } });
   if (existingUser) {
-    throw new AppError('This user already exist', 400);
+    throw new AppError('This user already exists', 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
@@ -25,15 +26,24 @@ exports.signup = async ({ name, email, image, password }) => {
 
 
 exports.login = async ({ email, password }) => {
+  // Check if a user with the provided email exists in the database
   const validUser = await User.findOne({ where: { email } });
+
+  // If no user is found, throw an error indicating that the user was not found
   if (!validUser) {
-    throw new AppError('user not found', 401);
+    throw new AppError('User not found', 401);
   }
+
+  // Compare the provided password with the hashed password stored in the database
   const match = await bcrypt.compare(password, validUser.password);
+
+  // If the passwords do not match, throw an error indicating wrong credentials
   if (!match) {
-    throw AppError('wrong credentials', 401);
+    throw new AppError('Wrong credentials', 401);
   }
-  if (match) return validUser;
+
+  // If the passwords match, return the valid user object
+  return validUser;
 };
 
 
@@ -42,7 +52,7 @@ exports.Google = async ({ name, email, image }) => {
   if (!User) {
     throw new AppError('user not found', 401);
   }
-  if (User) {
+ else if (User) {
     return User;
   } else {
     return await User.create({
@@ -59,7 +69,7 @@ exports.Twitter = async ({ name, email, image }) => {
   if (!User) {
     throw new AppError('user not found', 401);
   }
-  if (User) {
+ else if (User) {
     return User;
   } else {
     return await User.create({
@@ -79,19 +89,22 @@ exports.protect = async (req) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
+  //validate token
   if (!token) {
     throw new AppError('Log in to get access', 401);
   }
 
-  // verification of the token
+  // Verification of the token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  // Check if user still exist
+  // Check if the user still exists
   const user = await User.findByPk(decoded.id);
 
   if (!user) {
-    throw new AppError('This user no longer exist', 401);
+    throw new AppError('This user no longer exists', 401);
   }
 
   return user;
 };
+
+
