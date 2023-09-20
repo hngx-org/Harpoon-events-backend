@@ -41,6 +41,16 @@ module.exports = (sequelize, Datatypes) => {
   });
   Event.belongsTo(User);
 
+  // User relationship with as Interested_Events
+  User.belongsToMany(Event, {
+    through: InterestedEvents,
+    key: 'user_id',
+  });
+  Event.belongsToMany(User, {
+    through: InterestedEvents,
+    key: 'event_id',
+  });
+
   // User relationship with Comments
   User.hasMany(Comments);
   Comments.belongsTo(User);
