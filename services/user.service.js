@@ -8,17 +8,7 @@ const jwt = require('jsonwebtoken');
 // create main model
 const User = db.users;
 
-/**
- * Signs up a new user.
- *
- * @param {Object} data - User data including name, email, image, and password
- * @param {string} data.email - User's email address.
- * @param {string} data.password - User's password.
- * @param {string} data.image - User's email image.
- * @param {string} data.name - User's name.
- * @returns {Promise<Object>} A promise that resolves to the created user object.
- * @throws {AppError} If the user already exists or if there's an error during user creation.
- */
+
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await User.findOne({ where: { email } });
   if (existingUser) {
@@ -35,15 +25,6 @@ exports.signup = async ({ name, email, image, password }) => {
 };
 
 
-/**
- * Authenticate a user with email and password.
- *
- * @param {Object} credentials - User credentials for login.
- * @param {string} credentials.email - User's email address.
- * @param {string} credentials.password - User's password.
- * @throws {AppError} If the user is not found or if the provided password is incorrect.
- * @returns {Promise<Object>} A promise that resolves to the authenticated user object.
- */
 exports.login = async ({ email, password }) => {
   // Check if a user with the provided email exists in the database
   const validUser = await User.findOne({ where: { email } });
@@ -66,13 +47,39 @@ exports.login = async ({ email, password }) => {
 };
 
 
-/**
- * Protects a route by verifying the user's token.
- *
- * @param {Request} req - The request object containing headers.
- * @returns {Promise<Object>} A promise that resolves to the user object.
- * @throws {AppError} If the user is not authenticated or no longer exists.
- */
+exports.Google = async ({ name, email, image }) => {
+  const User = await User.findOne({ where: { email } });
+  if (!User) {
+    throw new AppError('user not found', 401);
+  }
+ else if (User) {
+    return User;
+  } else {
+    return await User.create({
+      name,
+      email,
+      image,
+    });
+  }
+};
+
+
+exports.Twitter = async ({ name, email, image }) => {
+  const User = await User.findOne({ where: { email } });
+  if (!User) {
+    throw new AppError('user not found', 401);
+  }
+ else if (User) {
+    return User;
+  } else {
+    return await User.create({
+      name,
+      email,
+      image,
+    });
+  }
+};
+
 exports.protect = async (req) => {
   let token;
   if (
@@ -101,18 +108,3 @@ exports.protect = async (req) => {
 };
 
 
-
-/**
- * Sends a reset password email.
- */
-exports.forgetPassword = async () => {};
-
-/**
- * Resets a user's password.
- */
-exports.resetPassword = async () => {};
-
-/**
- * Updates the password of the currently logged-in user.
- */
-exports.updatePassword = async () => {};

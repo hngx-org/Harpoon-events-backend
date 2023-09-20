@@ -1,3 +1,5 @@
+const { TrustProductsEvaluationsInstance } = require("twilio/lib/rest/trusthub/v1/trustProducts/trustProductsEvaluations");
+
 module.exports = (sequelize, Datatypes) => {
   const User = sequelize.define('user', {
     name: {
@@ -14,7 +16,7 @@ module.exports = (sequelize, Datatypes) => {
     },
     password: {
       type: Datatypes.STRING,
-      allowNull: false,
+      allowNull: TrustProductsEvaluationsInstance,
     },
     image: {
       type: Datatypes.STRING,
