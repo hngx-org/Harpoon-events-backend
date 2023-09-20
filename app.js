@@ -12,6 +12,7 @@ const errorController = require('./controllers/errorController');
 //importing routers
 const userRouter = require(`${__dirname}/routes/userRoutes`);
 const eventRouter = require(`${__dirname}/routes/eventRoutes`);
+const groupRouter = require(`${__dirname}/routes/groupRoutes`);
 
 const app = express();
 
@@ -43,7 +44,8 @@ app.use(xss());
 
 //MOUNTING THE ROUTES
 app.use(`/api/v1/users`, userRouter);
-app.use(`/api/v1/events`, eventRouter)
+app.use(`/api/v1/events`, eventRouter);
+app.use('/api/groups', groupRouter);
 
 // This middleware can only execute if the above two where not executed, hence it is a better way to handle errors
 // no need to call next though
@@ -53,7 +55,7 @@ app.all(`*`, (req, res, next) => {
     404
   );
   next(err);
-  //if the next function recieves an argument, express assumes its an error
+  //if the next function receives an argument, express assumes its an error
 });
 
 //this middleware catches every error and throws the response for it
