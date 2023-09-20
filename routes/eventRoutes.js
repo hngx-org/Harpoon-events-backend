@@ -24,6 +24,12 @@ router
 // Comments Routes
 router
   .route('/events/:eventId/comments')
-  .get(commentController.getAllComments);
+  .post(commentController.createComment)
+.get(commentController.getAllComments);
+// Update a Comment:
+//Delete a Comment:
+
+  
+
 
 module.exports = router;
