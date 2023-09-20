@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       through: models.CommentImages,
       foreignKey: 'comment_id',
       as: 'comment_images',
+      foreignKeyConstraint: true,
     });
 
     // Comment relationship with Like
@@ -50,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       through: models.Likes,
       foreignKey: 'comment_id',
       as: 'likes',
+      foreignKeyConstraint: true,
     });
   };
 
