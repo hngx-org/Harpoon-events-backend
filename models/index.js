@@ -2,10 +2,20 @@ const dbConfig = require('./../config/dbConfig');
 
 const { Sequelize, DataTypes } = require('sequelize');
 
+// const opts = {
+//   define: {
+//       //prevent sequelize from pluralizing table names
+//       freezeTableName: true
+//   }
+// }
+
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
+  define: {
+    freezeTableName: true,
+  },
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
