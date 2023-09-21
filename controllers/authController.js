@@ -7,6 +7,12 @@ const {
   signupValidationSchema,
 } = require('../validations');
 
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, image, password } =
     await signupValidationSchema.validateAsync(req.body);
@@ -20,7 +26,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('User not created successfully', 400));
   }
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+ const token = signToken(user.id);
 
   res.cookie('access_token', token, {
     httpOnly: true,
@@ -42,7 +48,7 @@ exports.login = catchAsync(async (req, res, next) => {
   );
   const user = await UserService.login({ email, password });
   if (user) {
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = signToken(user.id);
     const { password: hashPassword, ...User } = user.dataValues;
 
     res.cookie('access_token', token, {
@@ -58,9 +64,9 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.Twitter = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
-  const User = await UserService.Twitter({ name, email, image });
-  if (User) {
-    const token = jwt.sign({ id: User._id }, process.env.JWT_SECRET);
+  const user = await UserService.Twitter({ name, email, image });
+  if (user) {
+  const token = signToken(user.id);
 
     res
       .cookie('access_token', token, {
@@ -70,16 +76,16 @@ exports.Twitter = catchAsync(async (req, res, next) => {
         expiresIn: '15m',
       })
       .status(201)
-      .json({ ...User, token });
+      .json({ ...user, token });
   }
 });
 
 exports.Google = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
-  const User = await UserService.Twitter({ name, email, image });
-  if (User) {
-    const token = jwt.sign({ id: User._id }, process.env.JWT_SECRET);
+  const user = await UserService.Twitter({ name, email, image });
+  if (user) {
+   const token = signToken(user.id);
 
     res
       .cookie('access_token', token, {
@@ -89,13 +95,8 @@ exports.Google = catchAsync(async (req, res, next) => {
         expiresIn: '15m',
       })
       .status(201)
-      .json({ ...User, token });
+      .json({ ...user, token });
   }
 });
 
-exports.protect = catchAsync(async (req, res, next) => {
-  // getting the token and check if it exist
-  const user = await UserService.protect(req);
-  req.user = user;
-  next();
-});
+
