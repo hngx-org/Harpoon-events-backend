@@ -20,11 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true,
       },
     },
-    password: {
-      type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: true,
-    },
     avatar: {
       type: DataTypes.STRING,
     },
