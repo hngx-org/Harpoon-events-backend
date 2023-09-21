@@ -33,5 +33,5 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  return GroupImage;
+  return GroupImages;
 };
