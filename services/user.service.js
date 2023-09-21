@@ -96,11 +96,6 @@ exports.updateUser = async (userId, req) => {
     throw new AppError('User not found', 404);
   }
 
-  // Check to determine if the user making the request is accessing only his/her details
-  if (user.id !== req.user.id) {
-    throw new AppError('Access Denied. You can only update your own details');
-  }
-
   // Get the updated info from the body of the request
   const updatedInfo = {
     name: req.body.name,
@@ -133,12 +128,7 @@ exports.getUser = async (userId) => {
     throw new AppError('User not found', 404);
   }
 
-  // Check to determine if the user making the request is accessing only his/her details
-  if (user.id !== req.user.id) {
-    throw new AppError('Access Denied. You can only get your own details');
-  } else {
-    return user;
-  }
+  return user;
 };
 
 // express interest in an event
