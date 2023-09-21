@@ -4,13 +4,13 @@ const {
   getUser,
   updateUser,
   interestedEvent,
-  removeInterest
+  removeInterest,
 } = require('../controllers/userController');
 const {
   signup,
   login,
   Google,
-  Twitter
+  Twitter,
 } = require('../controllers/authController');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -22,10 +22,7 @@ router.post('/twitter', Twitter);
 // middleware to check if user is logged in
 router.use(requireAuth);
 
-router
-  .route('/:userId')
-  .get(getUser)
-  .put(updateUser);
+router.route('/:userId').get(getUser).put(updateUser);
 
 // user expresses interest in an event
 router.post('/:userId/interests/:eventId', interestedEvent);

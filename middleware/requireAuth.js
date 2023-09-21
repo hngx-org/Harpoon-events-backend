@@ -1,15 +1,18 @@
 const jwt = require('jsonwebtoken');
 const AppError = require('../utils/appError');
-const {UserModel} = require('../services/user.service');
+const { UserModel } = require('../services/user.service');
 const catchAsync = require('./../utils/catchAsync');
 
 const requireAuth = catchAsync(async (req, res, next) => {
-  const { authorization } = req.headers;
+  const authHeader = req.headers.authorization || req.headers.Authorization;
 
-  if (!authorization && !authorization.startsWith('Bearer')) {
+  console.log('authorization:', authHeader);
+
+  if (!authHeader || !authHeader?.startsWith('Bearer')) {
     throw new AppError('Authorization token required', 401);
   }
-  const token = authorization.split(' ')[1];
+  const token = authHeader.split(' ')[1];
+  console.log('token:', token);
 
   if (!token) {
     throw new AppError('Log in to get access', 401);
@@ -21,6 +24,7 @@ const requireAuth = catchAsync(async (req, res, next) => {
 
   // Check if the user still exists
   req.user = await UserModel.findByPk(id);
+  console.log('user:', req.user);
 
   if (!req.user) {
     throw new AppError('This user no longer exists', 401);
