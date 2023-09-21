@@ -34,5 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  EventThumbnail.removeAttribute('id');
+
   return EventThumbnail;
 };

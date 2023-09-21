@@ -34,5 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  GroupEvent.removeAttribute('id');
+
   return GroupEvent;
 };

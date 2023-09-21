@@ -32,5 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  InterestedEvent.removeAttribute('id');
+
   return InterestedEvent;
 };
