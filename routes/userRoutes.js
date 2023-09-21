@@ -16,9 +16,9 @@ router.post('/twitter', authController.Twitter);
 router.use(requireAuth);
 
 router
-    .route('/:userId')
-    .get(userController.getUser)
-    .put(userController.updateUser);
+  .route('/:userId')
+  .get(userController.getUser)
+  .put(userController.updateUser);
 
 // user expresses interest in an event
 router.post('/:userId/interests/:eventId', userController.interestedEvent);

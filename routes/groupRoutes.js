@@ -19,4 +19,9 @@ router
   .put(groupController.updateGroupById)
   .delete(groupController.deleteGroupById);
 
+router
+  .route('/:groupId/members/:userId')
+  .post(groupController.addUserToGroup)
+  
+
 module.exports = router;

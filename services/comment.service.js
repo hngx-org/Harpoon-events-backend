@@ -32,7 +32,6 @@ exports.getAllComments = async (event_id) => {
 };
 
 exports.addImageToComments = async (req) => {
-  console.log('Dumb Bot');
   const commentId = req.params.commentId;
   const { originalname, path } = req.file;
 

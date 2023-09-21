@@ -85,7 +85,7 @@ exports.Twitter = async ({ name, email, image }) => {
  * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
  */
 exports.updateUser = async (userId, req) => {
-  const user = await User.findByPk(userId);
+  const user = await UserModel.findByPk(userId);
 
   if (!user) {
     throw new AppError('User not found', 404);
@@ -99,7 +99,7 @@ exports.updateUser = async (userId, req) => {
   };
 
   // Update the details of the user
-  await User.update(updatedInfo, {
+  await UserModel.update(updatedInfo, {
     where: { id: userId },
   });
 
@@ -116,7 +116,7 @@ exports.updateUser = async (userId, req) => {
  */
 
 exports.getUser = async (userId) => {
-  const user = await User.findByPk(userId);
+  const user = await UserModel.findByPk(userId);
 
   if (!user) {
     throw new AppError('User not found', 404);
