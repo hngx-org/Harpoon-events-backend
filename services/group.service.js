@@ -102,3 +102,20 @@ exports.deleteGroupById = async (req, res, next) => {
 
   return null;
 };
+
+// remove user from group
+exports.removeUserFromGroup = async (req) => {
+  const { userId, groupId } = req.params;
+
+  const group = await Group.findByPk(groupId);
+
+  if (!group) {
+    throw new AppError('Group not found', 404);
+  }
+
+  await UserGroup.destroy({
+    where: { user_id: userId, group_id: groupId },
+  });
+
+  return { message: 'User removed from the group' };
+};

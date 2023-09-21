@@ -9,6 +9,16 @@ exports.addUserToGroup = catchAsync(async (req, res, next) => {
   res.status(201).json({ status: 'success', group });
 });
 
+// Controller for removing a user from a group
+exports.removeUserFromGroup = catchAsync(async (req, res, next) => {
+  const group = await GroupService.removeUserFromGroup(req);
+
+  res.status(200).json({
+    status: 'success',
+    group,
+  });
+});
+
 // Controller for creating a new group
 exports.createGroup = catchAsync(async (req, res, next) => {
   const group = await GroupService.createGroup(req);
