@@ -2,10 +2,12 @@ const db = require('../models');
 const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
 
+
 // gets the interested event model instance
 const InterestedEvent = db.interestedEvents;
 
-/// create main model
+
+// create main model
 module.exports.UserModel = db.users;
 
 exports.signup = async ({ name, email, image, password }) => {
