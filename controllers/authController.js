@@ -13,6 +13,7 @@ const signToken = (id) => {
   });
 };
 
+// signup user
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, image, password, id } =
     await signupValidationSchema.validateAsync(req.body);
@@ -42,6 +43,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 });
 
+//login user
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = await signInValidationSchema.validateAsync(
     req.body
@@ -61,6 +63,8 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 });
 
+
+//  signup/login with twitter
 exports.Twitter = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
@@ -80,6 +84,8 @@ exports.Twitter = catchAsync(async (req, res, next) => {
   }
 });
 
+
+// signup/login with twitter
 exports.Google = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
