@@ -14,7 +14,7 @@ const signToken = (id) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { name, email, image, password } =
+  const { name, email, image, password, id } =
     await signupValidationSchema.validateAsync(req.body);
   const user = await UserService.signup({
     name,
@@ -26,7 +26,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('User not created successfully', 400));
   }
- const token = signToken(user.id);
+  const token = signToken(user.id);
 
   res.cookie('access_token', token, {
     httpOnly: true,
@@ -66,7 +66,7 @@ exports.Twitter = catchAsync(async (req, res, next) => {
 
   const user = await UserService.Twitter({ name, email, image });
   if (user) {
-  const token = signToken(user.id);
+    const token = signToken(user.id);
 
     res
       .cookie('access_token', token, {
@@ -85,7 +85,7 @@ exports.Google = catchAsync(async (req, res, next) => {
 
   const user = await UserService.Twitter({ name, email, image });
   if (user) {
-   const token = signToken(user.id);
+    const token = signToken(user.id);
 
     res
       .cookie('access_token', token, {
@@ -98,5 +98,3 @@ exports.Google = catchAsync(async (req, res, next) => {
       .json({ ...user, token });
   }
 });
-
-

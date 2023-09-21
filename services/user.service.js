@@ -42,27 +42,27 @@ exports.login = async ({ email, password }) => {
 };
 
 exports.Google = async ({ name, email, image }) => {
-  const User = await UserModel.findOne({ where: { email } });
-  if (!User) {
+  const user = await UserModel.findOne({ where: { email } });
+  if (!user) {
     return await UserModel.create({
       name,
       email,
       image,
     });
   } else {
-    return User;
+    return user;
   }
 };
 
 exports.Twitter = async ({ name, email, image }) => {
-  const User = await UserModel.findOne({ where: { email } });
- if (!User) {
-   return await UserModel.create({
-     name,
-     email,
-     image,
-   });
- } else {
-   return User;
- }
+  const user = await UserModel.findOne({ where: { email } });
+  if (!user) {
+    return await UserModel.create({
+      name,
+      email,
+      image,
+    });
+  } else {
+    return user;
+  }
 };

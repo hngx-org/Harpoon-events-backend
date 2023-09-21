@@ -1,12 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
-  const GroupEvent = sequelize.define('group_events', {
-    // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
-    group_id: {
+  const EventThumbnail = sequelize.define('event_thumbnail', {
+    // No need to define an 'id' column, as Sequelize will create it automatically for one-to-one associations
+    image_id: {
       type: DataTypes.UUIDV4,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
-        model: 'groups',
+        model: 'images',
         key: 'id',
       },
     },
@@ -21,18 +21,18 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  GroupEvent.associate = (models) => {
+  EventThumbnail.associate = (models) => {
     // Define associations as needed
-    GroupEvent.belongsTo(models.Group, {
-      foreignKey: 'group_id',
-      as: 'group',
+    EventThumbnail.belongsTo(models.Image, {
+      foreignKey: 'image_id',
+      as: 'thumbnail_image',
     });
 
-    GroupEvent.belongsTo(models.Event, {
+    EventThumbnail.belongsTo(models.Event, {
       foreignKey: 'event_id',
       as: 'event',
     });
   };
 
-  return GroupEvent;
+  return EventThumbnail;
 };
