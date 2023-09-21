@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Image = sequelize.define('images', {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },

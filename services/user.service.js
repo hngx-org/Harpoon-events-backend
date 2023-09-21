@@ -2,11 +2,11 @@ const db = require('../models');
 const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
 
-// create main model
-
+// gets the interested event model instance
 const InterestedEvent = db.interestedEvents;
 
-const UserModel = db.users;
+/// create main model
+module.exports.UserModel = db.users;
 
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await UserModel.findOne({ where: { email } });
