@@ -21,12 +21,12 @@ router
 router
   .route('/:eventId')
   .get(eventController.getSingleEvent)
-  .patch(eventController.updateEvent)
+  .put(eventController.updateEvent)
   .delete(eventController.deleteEvent);
 
 // Comments Routes
 router
-  .route('/events/:eventId/comments')
+  .route('/:eventId/comments')
   .post(commentController.createComment)
   .get(commentController.getAllComments);
 // Update a Comment:

@@ -62,11 +62,8 @@ exports.protect = async (req) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
-    console.log(req.headers.authorization.split(' ')[1]);
     token = req.headers.authorization.split(' ')[1];
   }
-
-  console.log(token);
   //validate token
   if (!token) {
     throw new AppError('Log in to get access', 401);
@@ -74,7 +71,6 @@ exports.protect = async (req) => {
 
   // Verification of the token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
   // Check if the user still exists
   const user = await User.findByPk(decoded.id);
 

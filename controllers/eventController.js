@@ -6,7 +6,7 @@ const EventService = require('./../services/event.service');
 const Event = db.events;
 
 exports.createEvent = catchAsync(async (req, res, next) => {
-  const event = await EventService.creatEvent(req);
+  const event = await EventService.createEvent(req);
 
   res.status(201).json({
     status: 'success',
@@ -18,7 +18,7 @@ exports.createEvent = catchAsync(async (req, res, next) => {
 exports.deleteEvent = catchAsync(async (req, res, next) => {
   const eventId = req.params.eventId;
 
-  await EventService.deleteEvent(eventId);
+  await EventService.deleteEvent(eventId, req);
   res.status(204).json({
     status: 'success!',
     data: null,
@@ -41,7 +41,8 @@ exports.updateEvent = catchAsync(async (req, res, next) => {
 exports.getSingleEvent = catchAsync(async (req, res, next) => {
   const eventId = req.params.eventId;
 
-  const event = EventService.getSingleEvent(eventId);
+  const event = await EventService.getSingleEvent(eventId);
+
   res.status(200).json({
     status: 'sucess!',
     event,
