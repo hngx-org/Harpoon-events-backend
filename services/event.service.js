@@ -1,10 +1,3 @@
-/**
- * Retrieves a single event by its ID.
- *
- * @param {number | string} eventId - The ID of the event to retrieve.
- * @returns {Promise<Object|null>} A promise that resolves to the retrieved event object or null if not found.
- * @throws {Error} If there's an error while fetching the event.
- */
 const db = require('../models');
 const AppError = require('../utils/appError');
 

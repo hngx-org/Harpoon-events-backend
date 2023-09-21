@@ -17,8 +17,8 @@ router.use(requireAuth);
 
 router
   .route('/:userId')
-  .put(userController.updateUser)
-  .get(userController.getUser);
+  .get(userController.getUser)
+  .put(userController.updateUser);
 
 // user expresses interest in an event
 router.post('/:userId/interests/:eventId', userController.interestedEvent);

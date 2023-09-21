@@ -37,7 +37,7 @@ db.groups = require('./groupModel.js')(sequelize, DataTypes);
 db.groupEvents = require('./group_eventsModel.js')(sequelize, DataTypes);
 db.groupImages = require('./groupImageModel.js')(sequelize, DataTypes);
 db.userGroups = require('./user_groupsModel.js')(sequelize, DataTypes);
-db.images = require('./imageModel.js')(sequelize, DataTypes)
+db.images = require('./imageModel.js')(sequelize, DataTypes);
 db.commentImages = require('./comment_imagesModel.js')(sequelize, DataTypes);
 db.eventThumbnail = require('./event_thumbnailModel.js')(sequelize, DataTypes);
 db.likes = require('./likesModel.js')(sequelize, DataTypes);
@@ -49,4 +49,3 @@ db.sequelize.sync({ force: false }).then(() => {
 });
 
 module.exports = db;
-
