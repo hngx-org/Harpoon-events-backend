@@ -1,22 +1,34 @@
-const express = require('express');
+const router = require('express').Router();
 
-const userController = require('../controllers/userController');
-const authController = require('../controllers/authController');
+const {
+  getUser,
+  updateUser,
+  interestedEvent,
+  removeInterest
+} = require('../controllers/userController');
+const {
+  signup,
+  login,
+  Google,
+  Twitter
+} = require('../controllers/authController');
+const requireAuth = require('../middleware/requireAuth');
 
-//mounting route
-const router = express.Router();
+router.post('/signup', signup);
+router.post('/login', login);
+router.post('/google', Google);
+router.post('/twitter', Twitter);
 
-router.post('/signup', authController.signup);
-router.post('/login', authController.login);
-router.post('/google', authController.Google);
-router.post('/twitter', authController.Twitter);
+// middleware to check if user is logged in
+router.use(requireAuth);
 
+router
+  .route('/:userId')
+  .get(getUser)
+  .put(updateUser);
 
-//protect middleware to all the route that comes after this line
-router.use(authController.protect);
-
-router.get('/',  userController.getUser);
-router.put('/:id', userController.updateUser);
-
+// user expresses interest in an event
+router.post('/:userId/interests/:eventId', interestedEvent);
+router.delete('/:userId/interests/:eventId', removeInterest);
 
 module.exports = router;

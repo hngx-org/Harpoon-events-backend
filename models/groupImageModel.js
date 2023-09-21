@@ -1,15 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserGroup = sequelize.define('user_groups', {
+  const GroupImages = sequelize.define('group_image', {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
-    user_id: {
-      type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id',
-      },
-    },
     group_id: {
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
@@ -19,22 +10,30 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+    image_id: {
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      references: {
+        model: 'images',
+        key: 'id',
+      },
+    },
   });
 
-  UserGroup.associate = (models) => {
-    // Define associations as needed
-    UserGroup.belongsTo(models.User, {
-      foreignKey: 'user_id',
-      as: 'user',
-    });
-
-    UserGroup.belongsTo(models.Group, {
+  // Define associations
+  GroupImages.associate = (models) => {
+    GroupImages.belongsTo(models.Group, {
       foreignKey: 'group_id',
-      as: 'group',
+      foreignKeyConstraint: true,
+    });
+    GroupImages.belongsTo(models.Image, {
+      foreignKey: 'image_id',
+      foreignKeyConstraint: true,
     });
   };
 
-  UserGroup.removeAttribute('id');
+  GroupImages.removeAttribute('id');
 
-  return UserGroup;
+  return GroupImages;
 };

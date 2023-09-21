@@ -1,10 +1,3 @@
-/**
- * Retrieves a single event by its ID.
- *
- * @param {number | string} eventId - The ID of the event to retrieve.
- * @returns {Promise<Object|null>} A promise that resolves to the retrieved event object or null if not found.
- * @throws {Error} If there's an error while fetching the event.
- */
 const db = require('../models');
 const AppError = require('../utils/appError');
 
@@ -27,24 +20,26 @@ const Event = db.events;
  * @throws {AppError} If the event creation is not successful.
  */
 exports.createEvent = async (req) => {
-    const info = {
-        title: req.body.title,
-        description: req.body.description,
-        creator: req.user.id,
-        location: req.body.location,
-        start_time: req.body.start_time,
-        end_time: req.body.end_time,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-        image: req.body.image,
-    };
-    const event = await Event.create(info);
+  const info = {
+    title: req.body.title,
+    description: req.body.description,
+    creator: req.user.id,
+    location: req.body.location,
+    start_time: req.body.start_time,
+    end_time: req.body.end_time,
+    start_date: req.body.start_date,
+    end_date: req.body.end_date,
+    image: req.body.image,
+  };
+  const event = await Event.create(info);
 
-    if (!event) {
-        throw new AppError('Event not created successfully', 400);
-    }
+  console.log(event, 'create event');
 
-    return event;
+  if (!event) {
+    throw new AppError('Event not created successfully', 400);
+  }
+
+  return event;
 };
 
 /**
@@ -57,20 +52,20 @@ exports.createEvent = async (req) => {
  * @throws {AppError} If the event is unavailable or the user doesn't have access to delete the event.
  */
 exports.deleteEvent = async (eventId, req) => {
-    const event = await Event.findByPk(eventId);
+  const event = await Event.findByPk(eventId);
 
-    if (!event) {
-        throw new AppError('Event unavailable', 404);
-    }
+  if (!event) {
+    throw new AppError('Event unavailable', 404);
+  }
 
-    // Check to determine if the user making the request is the creator of the event
-    if (event.creator !== req.user.id) {
-        throw new AppError('Access to delete event not granted.');
-    }
+  // Check to determine if the user making the request is the creator of the event
+  if (event.creator !== req.user.id) {
+    throw new AppError('Access to delete event not granted.');
+  }
 
-    return await Event.destroy({
-        where: { id: eventId },
-    });
+  return await Event.destroy({
+    where: { id: eventId },
+  });
 };
 
 /**
@@ -91,33 +86,33 @@ exports.deleteEvent = async (eventId, req) => {
  * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
  */
 exports.updateEvent = async (eventId, req) => {
-    const event = await Event.findByPk(eventId);
+  const event = await Event.findByPk(eventId);
 
-    if (!event) {
-        throw new AppError('Event not found', 404);
-    }
+  if (!event) {
+    throw new AppError('Event not found', 404);
+  }
 
-    // Check to determine if the user making the request is the creator of the event
-    if (event.creator !== req.user.id) {
-        throw new AppError('Access to update event not granted.');
-    }
+  // Check to determine if the user making the request is the creator of the event
+  if (event.creator !== req.user.id) {
+    throw new AppError('Access to update event not granted.');
+  }
 
-    const updatedInfo = {
-        title: req.body.title,
-        description: req.body.description,
-        creator: req.user.id,
-        location: req.body.location,
-        start_time: req.body.start_time,
-        end_time: req.body.end_time,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-        image: req.body.image,
-    };
-    await Event.update(updatedInfo, {
-        where: { id: eventId },
-    });
+  const updatedInfo = {
+    title: req.body.title,
+    description: req.body.description,
+    creator: req.user.id,
+    location: req.body.location,
+    start_time: req.body.start_time,
+    end_time: req.body.end_time,
+    start_date: req.body.start_date,
+    end_date: req.body.end_date,
+    image: req.body.image,
+  };
+  await Event.update(updatedInfo, {
+    where: { id: eventId },
+  });
 
-    return await Event.findByPk(eventId);
+  return await Event.findByPk(eventId);
 };
 
 /**
@@ -128,13 +123,13 @@ exports.updateEvent = async (eventId, req) => {
  * @throws {AppError} If the event is not found.
  */
 exports.getSingleEvent = async (eventId) => {
-    const event = await Event.findByPk(eventId);
+  const event = await Event.findByPk(eventId);
 
-    if (!event) {
-        throw new AppError('Event not found', 404);
-    }
+  if (!event) {
+    throw new AppError('Event not found', 404);
+  }
 
-    return event;
+  return event;
 };
 
 /**
@@ -143,6 +138,7 @@ exports.getSingleEvent = async (eventId) => {
  * @returns {Promise<Array<Object>>} A promise that resolves to an array of all events.
  */
 exports.getAllEvents = async () => {
-    const events = await Event.findAll();
-    return events;
+  const events = await Event.findAll();
+  console.log(events);
+  return events;
 };

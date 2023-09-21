@@ -3,8 +3,7 @@ const AppError = require('./../utils/appError');
 const EventService = require('./../services/event.service');
 
 
-//Creat an event
-exports.createEvent = catchAsync(async (req, res, _next) => {
+exports.createEvent = catchAsync(async (req, res, next) => {
   const event = await EventService.createEvent(req);
 
   res.status(201).json({
@@ -14,12 +13,10 @@ exports.createEvent = catchAsync(async (req, res, _next) => {
 });
 
 // Deleting an event
-exports.deleteEvent = catchAsync(async (req, res, _next) => {
-
+exports.deleteEvent = catchAsync(async (req, res, next) => {
   const eventId = req.params.eventId;
 
-  await EventService.deleteEvent(eventId);
-
+  await EventService.deleteEvent(eventId, req);
   res.status(204).json({
     status: 'success!',
     data: null,
@@ -34,7 +31,7 @@ exports.updateEvent = catchAsync(async (req, res, _next) => {
 
   res.status(200).json({
     status: 'success!',
-    event: updatedEvent,
+    event,
   });
 });
 
@@ -42,7 +39,7 @@ exports.updateEvent = catchAsync(async (req, res, _next) => {
 exports.getSingleEvent = catchAsync(async (req, res, _next) => {
   const eventId = req.params.eventId;
 
-  const event = EventService.getSingleEvent(eventId);
+  const event = await EventService.getSingleEvent(eventId);
 
   res.status(200).json({
     status: 'sucesss!',

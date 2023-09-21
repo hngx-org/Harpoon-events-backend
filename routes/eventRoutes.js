@@ -1,38 +1,55 @@
-const router  = require('express').Router();
+const router = require('express').Router();
+const multer = require('multer');
 
-const eventController = require('../controllers/eventController');
-const authController = require('../controllers/authController');
-const commentController = require('../controllers/commentController');
+const {
+  getAllEvent,
+  createEvent, 
+  getSingleEvent,
+  updateEvent,
+  deleteEvent
+} = require('../controllers/eventController');
+
+const {
+  createComment,
+  getAllComments,
+  addImageToComments,
+  getImagesfromComments
+} = require('../controllers/commentController');
+
+const requireAuth = require('../middleware/requireAuth');
+
+const upload = multer({ dest: 'uploads/' });
 
 // middleware to check if user is logged in
-router.use(authController.protect);
+router.use(requireAuth);
 
 // Event routes
 router
   .route('/')
-  .get(eventController.getAllEvent)
-  .post(eventController.createEvent);
+  .get(getAllEvent)
+  .post(createEvent);
 
 router
   .route('/:eventId')
-  .get(eventController.getSingleEvent)
-  .patch(eventController.updateEvent)
-  .delete(eventController.deleteEvent);
+  .get(getSingleEvent)
+  .put(updateEvent)
+  .delete(deleteEvent);
 
 // Comments Routes
 router
-  .route('/events/:eventId/comments')
-  .post(commentController.createComment)
-  .get(commentController.getAllComments);
-
-
+  .route('/:eventId/comments')
+  .post(createComment)
+  .get(getAllComments);
 
 // Update a Comment:
 
 
 //Delete a Comment:
 
-  
-
+// comments with images
+router
+  .route('/comments/:commentId/images')
+  .post(upload.single('image'), addImageToComments)
+  .get(getImagesfromComments);
 
 module.exports = router;

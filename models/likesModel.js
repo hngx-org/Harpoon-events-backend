@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserGroup = sequelize.define('user_groups', {
+  const Like = sequelize.define('likes', {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     user_id: {
       type: DataTypes.STRING,
@@ -10,31 +10,31 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
-    group_id: {
+    comment_id: {
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
-        model: 'groups',
+        model: 'comments',
         key: 'id',
       },
     },
   });
 
-  UserGroup.associate = (models) => {
+  Like.associate = (models) => {
     // Define associations as needed
-    UserGroup.belongsTo(models.User, {
+    Like.belongsTo(models.User, {
       foreignKey: 'user_id',
       as: 'user',
     });
 
-    UserGroup.belongsTo(models.Group, {
-      foreignKey: 'group_id',
-      as: 'group',
+    Like.belongsTo(models.Comment, {
+      foreignKey: 'comment_id',
+      as: 'comment',
     });
   };
 
-  UserGroup.removeAttribute('id');
+  Like.removeAttribute('id');
 
-  return UserGroup;
+  return Like;
 };

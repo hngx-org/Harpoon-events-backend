@@ -1,22 +1,35 @@
-const express = require('express');
-const groupController = require('../controllers/groupController');
-const authController = require('../controllers/authController');
+const router = require('express').Router();
 
-const router = express.Router();
+const {
+  createGroup,
+  getAllGroups,
+  getGroupById,
+  updateGroupById,
+  deleteGroupById,
+  addUserToGroup,
+  removeUserFromGroup
+} = require('../controllers/groupController');
+const requireAuth = require('../middleware/requireAuth');
 
-// * Middleware to check if user is logged in
-router.use(authController.protect);
+// middleware to check if user is logged in
+router.use(requireAuth);
 
 // Routes for Groups
 router
   .route('/')
-  .post(groupController.createGroup)
-  .get(groupController.getAllGroups);
+  .post(createGroup)
+  .get(getAllGroups);
 
 router
   .route('/:groupId')
-  .get(groupController.getGroupById)
-  .put(groupController.updateGroupById)
-  .delete(groupController.deleteGroupById);
+  .get(getGroupById)
+  .put(updateGroupById)
+  .delete(deleteGroupById);
+
+router
+  .route('/:groupId/members/:userId')
+  .post(addUserToGroup)
+  .delete(removeUserFromGroup);
+  
 
 module.exports = router;

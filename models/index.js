@@ -2,10 +2,21 @@ const dbConfig = require('./../config/dbConfig');
 
 const { Sequelize, DataTypes } = require('sequelize');
 
+// const opts = {
+//   define: {
+//       //prevent sequelize from pluralizing table names
+//       freezeTableName: true
+//   }
+// }
+
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
+  define: {
+    timestamps: false,
+    freezeTableName: true,
+  },
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -29,24 +40,23 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+// Import and include all the models
 db.users = require('./userModel.js')(sequelize, DataTypes);
 db.events = require('./eventModel.js')(sequelize, DataTypes);
-db.groups = require('./groupModel.js')(sequelize, DataTypes);
 db.comments = require('./commentModel.js')(sequelize, DataTypes);
-// make you not loose all you data everytime e as it rewrites data
+db.groups = require('./groupModel.js')(sequelize, DataTypes);
+db.groupEvents = require('./group_eventsModel.js')(sequelize, DataTypes);
+db.groupImage = require('./groupImageModel.js')(sequelize, DataTypes);
+db.userGroups = require('./user_groupsModel.js')(sequelize, DataTypes);
+db.images = require('./imageModel.js')(sequelize, DataTypes);
+db.commentImages = require('./comment_imagesModel.js')(sequelize, DataTypes);
+db.eventThumbnail = require('./event_thumbnailModel.js')(sequelize, DataTypes);
+db.likes = require('./likesModel.js')(sequelize, DataTypes);
+db.interestedEvents = require('./interestedEventsModel.js')(sequelize, DataTypes);
+
+// make sure you don't lose all your data every time as it rewrites data
 db.sequelize.sync({ force: false }).then(() => {
   console.log('Yes, re-sync done!');
 });
-
-// RelationShips
-// db.users.hasMany(db.events, {
-//   foreignKey: 'user_id',
-//   as: 'event',
-// });
-
-// db.events.belongsTo(db.users, {
-//   foreignKey: 'user_id',
-//   as: 'user',
-// });
 
 module.exports = db;
