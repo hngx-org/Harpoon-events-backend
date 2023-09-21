@@ -1,12 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
-  const CommentImages = sequelize.define('comment_images', {
+  const GroupImages = sequelize.define('group_image', {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
-    comment_id: {
+    group_id: {
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
-        model: 'comments',
+        model: 'groups',
         key: 'id',
       },
     },
@@ -22,16 +22,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // Define associations
-  CommentImages.associate = (models) => {
-    CommentImages.belongsTo(models.Comment, {
-      foreignKey: 'comment_id',
+  GroupImages.associate = (models) => {
+    GroupImages.belongsTo(models.Group, {
+      foreignKey: 'group_id',
       foreignKeyConstraint: true,
     });
-    CommentImages.belongsTo(models.Image, {
+    GroupImages.belongsTo(models.Image, {
       foreignKey: 'image_id',
       foreignKeyConstraint: true,
     });
   };
 
-  return CommentImages;
+  return GroupImages;
 };

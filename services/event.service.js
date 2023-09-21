@@ -1,10 +1,3 @@
-/**
- * Retrieves a single event by its ID.
- *
- * @param {number | string} eventId - The ID of the event to retrieve.
- * @returns {Promise<Object|null>} A promise that resolves to the retrieved event object or null if not found.
- * @throws {Error} If there's an error while fetching the event.
- */
 const db = require('../models');
 const AppError = require('../utils/appError');
 
@@ -39,6 +32,8 @@ exports.createEvent = async (req) => {
     image: req.body.image,
   };
   const event = await Event.create(info);
+
+  console.log(event, 'create event');
 
   if (!event) {
     throw new AppError('Event not created successfully', 400);
@@ -144,5 +139,6 @@ exports.getSingleEvent = async (eventId) => {
  */
 exports.getAllEvents = async () => {
   const events = await Event.findAll();
+  console.log(events);
   return events;
 };

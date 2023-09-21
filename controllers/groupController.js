@@ -1,108 +1,68 @@
 const db = require('../models');
-const Group = db.groups;
+const catchAsync = require('../utils/catchAsync');
+const GroupService = require('./../services/group.service');
+
+// add user to group
+exports.addUserToGroup = catchAsync(async (req, res, next) => {
+  const group = await GroupService.addUserToGroup(req);
+
+  res.status(201).json({ status: 'success', group });
+});
+
+// Controller for removing a user from a group
+exports.removeUserFromGroup = catchAsync(async (req, res, next) => {
+  const group = await GroupService.removeUserFromGroup(req);
+
+  res.status(200).json({
+    status: 'success',
+    group,
+  });
+});
 
 // Controller for creating a new group
-exports.createGroup = async (req, res, next) => {
-  try {
-    const { title } = req.body;
-    const group = await Group.create({ title });
+exports.createGroup = catchAsync(async (req, res, next) => {
+  const group = await GroupService.createGroup(req);
 
-    res.status(201).json({
-      status: 'success',
-      group,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(201).json({
+    status: 'success',
+    group,
+  });
+});
 
 // Controller for fetching all groups
-exports.getAllGroups = async (req, res, next) => {
-  try {
-    const groups = await Group.findAll();
+exports.getAllGroups = catchAsync(async (req, res, next) => {
+  const groups = await GroupService.getAllGroups();
 
-    res.status(200).json({
-      status: 'success',
-      groups,
-    });
-  } catch (error) {
-    // Handle errors here
-    next(error);
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    groups,
+  });
+});
 
 // Controller for fetching a single group by ID
-exports.getGroupById = async (req, res, next) => {
-  try {
-    const groupId = req.params.groupId;
-    const group = await Group.findByPk(groupId);
-
-    if (!group) {
-      // Return an error if the group doesn't exist
-      return res.status(404).json({
-        status: 'error',
-        message: 'Group not found',
-      });
-    }
-
-    res.status(200).json({
-      status: 'success',
-      group,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+exports.getGroupById = catchAsync(async (req, res, next) => {
+  const group = await GroupService.getGroupById(req);
+  res.status(200).json({
+    status: 'success',
+    group,
+  });
+});
 
 // Controller for updating a group by ID
-exports.updateGroupById = async (req, res, next) => {
-  try {
-    const groupId = req.params.groupId;
-    const { title } = req.body;
+exports.updateGroupById = catchAsync(async (req, res, next) => {
+  const group = await GroupService.updateGroupById(req);
 
-    const group = await Group.findByPk(groupId);
-
-    if (!group) {
-      // Return an error if the group doesn't exist
-      return res.status(404).json({
-        status: 'error',
-        message: 'Group not found',
-      });
-    }
-
-    group.title = title;
-    await group.save();
-
-    res.status(200).json({
-      status: 'success',
-      group,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(200).json({
+    status: 'success',
+    group,
+  });
+});
 
 // Controller for deleting a group by ID
-exports.deleteGroupById = async (req, res, next) => {
-  try {
-    const groupId = req.params.groupId;
-    const group = await Group.findByPk(groupId);
-
-    if (!group) {
-      // Return an error if the group doesn't exist
-      return res.status(404).json({
-        status: 'error',
-        message: 'Group not found',
-      });
-    }
-
-    await group.destroy();
-
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+exports.deleteGroupById = catchAsync(async (req, res, next) => {
+  await GroupService.deleteGroupById(req);
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
