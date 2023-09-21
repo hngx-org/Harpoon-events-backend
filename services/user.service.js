@@ -2,6 +2,11 @@ const db = require('../models');
 const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
 
+
+// gets the interested event model instance
+const InterestedEvent = db.interestedEvents;
+
+
 // create main model
 module.exports.UserModel = db.users;
 
@@ -65,4 +70,17 @@ exports.Twitter = async ({ name, email, image }) => {
   } else {
     return user;
   }
+};
+// express interest in an event
+
+exports.interestedEvent = async (params) => {
+  const interested = await InterestedEvent.create({
+    user_id: params.user_id,
+    event_id: params.event_id,
+  });
+
+  if (interested) {
+    return interested;
+  }
+  throw new AppError('interest in event not created successfully', 400);
 };

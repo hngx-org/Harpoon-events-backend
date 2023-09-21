@@ -38,5 +38,4 @@ router
   .post(upload.single('image'), commentController.addImageToComments)
   .get(commentController.getImagesfromComments);
 
-
 module.exports = router;
