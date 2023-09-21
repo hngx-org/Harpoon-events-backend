@@ -1,6 +1,7 @@
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
+const { Op } = require('sequelize');
 
 // gets the interested event model instance
 const InterestedEvent = db.interestedEvents;
@@ -136,4 +137,38 @@ exports.interestedEvent = async (params) => {
     return interested;
   }
   throw new AppError('interest in event not created successfully', 400);
+};
+
+exports.reomveInterest = async (params) => {
+  const interested = await InterestedEvent.destroy({
+    where: {
+      [Op.and]: [
+        {
+          user_id: params.user_id,
+        },
+        {
+          event_id: params.event_id,
+        },
+      ],
+    },
+  });
+
+  console.log('removed', interested);
+  if (interested == 0) {
+    return {
+      message:
+        'Event might not exist or you previously had not shown intrest in this event',
+    };
+  }
+  if (interested >= 1) {
+    //while greater than is beacuse, ordinarily the DB should be structured in way you wont show interest more than once
+    //composite uniquie of user_id and event_id
+    //so change might more than one row might have got destroyed reason for a greater than one instaed of just ==1
+    //succesfully removed interest
+    return {
+      message: 'Interest sucessfully removed',
+    };
+  } else {
+    throw new AppError('interest in event not created successfully', 400);
+  }
 };
