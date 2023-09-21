@@ -19,7 +19,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id: {
       type: DataTypes.UUIDV4,
-      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'users',
