@@ -64,7 +64,7 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.Twitter = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
-  const user = await UserService.Google({ name, email, image });
+  const user = await UserService.Twitter({ name, email, image });
   if (user) {
     const token = signToken(user.id);
 
@@ -83,7 +83,7 @@ exports.Twitter = catchAsync(async (req, res, next) => {
 exports.Google = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
-  const user = await UserService.Google({ name, email, image });
+  const user = await UserService.Twitter({ name, email, image });
   if (user) {
     const token = signToken(user.id);
 
@@ -97,11 +97,4 @@ exports.Google = catchAsync(async (req, res, next) => {
       .status(201)
       .json({ ...user, token });
   }
-});
-
-exports.protect = catchAsync(async (req, res, next) => {
-  // getting the token and check if it exist
-  const user = await UserService.protect(req);
-  req.user = user;
-  next();
 });
