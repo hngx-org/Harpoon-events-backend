@@ -1,28 +1,69 @@
 const db = require('../models');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const UserService = require('./../services/user.service');
 
 const Event = db.events;
 
-// filters the fields that can be updated on the user
-const filterObj = (obj, ...allowedFields) => {
-  const newObj = {};
+// Update user details
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const userId = req.params.userId;
 
-  Object.keys(obj).forEach((el) => {
-    if (allowedFields.includes(el)) newObj[el] = obj[el];
+  const user = UserService.updateUser(userId, req);
+
+  res.status(200).json({
+    status: 'success!',
+    user,
   });
+});
 
-  return newObj;
-};
+// Getting the details of a user
+exports.getUser = catchAsync(async (req, res, next) => {
+  const userId = req.params.userId;
 
-// update the user object except password
-exports.updateMe = catchAsync(async (req, res, next) => {});
+  const user = await UserService.getUser(userId);
 
-exports.deleteMe = catchAsync(async (req, res, next) => {});
+  res.status(200).json({
+    status: 'sucess!',
+    user,
+  });
+});
 
-exports.getUser = catchAsync(async (req, res, next) => {});
+// express interest in an event
+exports.interestedEvent = catchAsync(async (req, res, next) => {
+  const params = {
+    user_id: req.params.userId,
+    event_id: req.params.eventId,
+  };
 
-exports.getMe = (req, res, next) => {
-  req.params.id = req.user.id;
-  next();
-};
+  const interested = await UserService.interestedEvent(params);
+  if (!interested) {
+    return next(
+      new AppError('interest in event not created successfully', 400)
+    );
+  }
+
+  res.status(200).json({
+    status: 'sucess!',
+    interested: interested,
+  });
+});
+
+exports.removeInterest = catchAsync(async (req, res, next) => {
+  const params = {
+    user_id: req.params.userId,
+    event_id: req.params.eventId,
+  };
+
+  const interested = await UserService.reomveInterest(params);
+  if (!interested) {
+    return next(
+      new AppError('interest in event not created successfully', 400)
+    );
+  }
+
+  res.status(200).json({
+    status: 'sucess!',
+    interested: interested,
+  });
+});

@@ -4,3 +4,6 @@ node_modules
 .env
 env
 >>>>>>> 00efa7f518bfc23beec2d22a24d64c6b096a3734
+
+
+config.env
