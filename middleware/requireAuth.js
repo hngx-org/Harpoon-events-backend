@@ -20,7 +20,7 @@ const requireAuth = catchAsync(async (req, res, next) => {
   const { id } = decoded;
 
   // Check if the user still exists
-  req.user = await UserModel.findOne({ where: { id } });
+  req.user = await UserModel.findByPk(id);
 
   if (!req.user) {
     throw new AppError('This user no longer exists', 401);
