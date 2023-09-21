@@ -9,7 +9,7 @@ const Event = db.events;
 exports.updateUser = catchAsync(async (req, res, next) => {
   const userId = req.params.userId;
 
-  const user = UserService.updateUser(userId, req);
+  const user = await UserService.updateUser(userId, req);
 
   res.status(200).json({
     status: 'success!',

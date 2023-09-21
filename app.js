@@ -34,7 +34,7 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, Please try again in an hour',
 });
 
-// test the endpoint http://localhost:8080
+// test the endpoint http://localhost:8000/
 app.get('/', (req, res) => {
   res.json({ message: 'api is working' });
 });
