@@ -83,11 +83,11 @@ exports.updateGroupById = async (req) => {
       title,
     },
     {
-      where: { id: eventId },
+      where: { id: groupId },
     }
   );
 
-  return await Group.findByPk(eventId);
+  return await Group.findByPk(groupId);
 };
 
 exports.deleteGroupById = async (req, res, next) => {
