@@ -7,6 +7,7 @@ const {
   signupValidationSchema,
 } = require('../validations');
 
+// Signup a new user
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, image, password } =
     await signupValidationSchema.validateAsync(req.body);
@@ -36,6 +37,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 });
 
+// log in an existing user
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = await signInValidationSchema.validateAsync(
     req.body
@@ -55,6 +57,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 });
 
+// Login user with Twitter/X
 exports.Twitter = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
@@ -74,6 +77,7 @@ exports.Twitter = catchAsync(async (req, res, next) => {
   }
 });
 
+// Login user with Google
 exports.Google = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 

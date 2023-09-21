@@ -29,13 +29,13 @@ module.exports = (sequelize, Datatypes) => {
     models.Group.belongsToMany(User, {
       through: models.UserGroups,
     });
-  
+
     // User relationship with Event
     User.hasMany(models.Event, {
-      foreignKey: "creator",
+      foreignKey: 'creator',
     });
     models.Event.belongsTo(User);
-  
+
     // User relationship with as Interested_Events
     User.belongsToMany(models.Event, {
       through: models.InterestedEvents,
@@ -45,11 +45,11 @@ module.exports = (sequelize, Datatypes) => {
       through: models.InterestedEvents,
       foreignKey: 'event_id',
     });
-  
+
     // User relationship with Comments
     User.hasMany(models.Comments);
     models.Comments.belongsTo(User);
-  }
+  };
 
   return User;
 };
