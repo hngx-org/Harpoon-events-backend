@@ -1,4 +1,3 @@
-
 const { promisify } = require('util');
 const db = require('../models');
 const bcrypt = require('bcryptjs');
@@ -7,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 // create main model
 const User = db.users;
-
+const InterestedEvent = db.interestedEvents;
 
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await User.findOne({ where: { email } });
@@ -23,7 +22,6 @@ exports.signup = async ({ name, email, image, password }) => {
     password: hashedPassword,
   });
 };
-
 
 exports.login = async ({ email, password }) => {
   // Check if a user with the provided email exists in the database
@@ -46,13 +44,11 @@ exports.login = async ({ email, password }) => {
   return validUser;
 };
 
-
 exports.Google = async ({ name, email, image }) => {
   const User = await User.findOne({ where: { email } });
   if (!User) {
     throw new AppError('user not found', 401);
-  }
- else if (User) {
+  } else if (User) {
     return User;
   } else {
     return await User.create({
@@ -63,13 +59,11 @@ exports.Google = async ({ name, email, image }) => {
   }
 };
 
-
 exports.Twitter = async ({ name, email, image }) => {
   const User = await User.findOne({ where: { email } });
   if (!User) {
     throw new AppError('user not found', 401);
-  }
- else if (User) {
+  } else if (User) {
     return User;
   } else {
     return await User.create({
@@ -107,4 +101,16 @@ exports.protect = async (req) => {
   return user;
 };
 
+// express interest in an event
 
+exports.interestedEvent = async (params) => {
+  const interested = await InterestedEvent.create({
+    user_id: params.user_id,
+    event_id: params.event_id,
+  });
+
+  if (interested) {
+    return interested;
+  }
+  throw new AppError('interest in event not created successfully', 400);
+};
