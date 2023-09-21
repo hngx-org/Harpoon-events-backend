@@ -33,7 +33,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     httpOnly: true,
     sameSite: 'None',
     secure: true,
-    expiresIn: '15m',
+    expiresIn: process.env.JWT_SECRET,
   });
 
   res.status(201).json({
@@ -57,12 +57,11 @@ exports.login = catchAsync(async (req, res, next) => {
       httpOnly: true,
       sameSite: 'None',
       secure: true,
-      maxAge: 30 * 60 * 1000,
+      expiresIn: process.env.JWT_SECRET,
     });
     return res.status(200).json({ ...User, token });
   }
 });
-
 
 //  signup/login with twitter
 exports.Twitter = catchAsync(async (req, res, next) => {
@@ -77,13 +76,12 @@ exports.Twitter = catchAsync(async (req, res, next) => {
         httpOnly: true,
         sameSite: 'None',
         secure: true,
-        expiresIn: '15m',
+        expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
       .json({ ...user, token });
   }
 });
-
 
 // signup/login with twitter
 exports.Google = catchAsync(async (req, res, next) => {
@@ -98,7 +96,7 @@ exports.Google = catchAsync(async (req, res, next) => {
         httpOnly: true,
         sameSite: 'None',
         secure: true,
-        expiresIn: '15m',
+        expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
       .json({ ...user, token });
