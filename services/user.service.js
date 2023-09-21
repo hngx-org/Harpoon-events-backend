@@ -6,6 +6,9 @@ const AppError = require('../utils/appError');
 // gets the interested event model instance
 const InterestedEvent = db.interestedEvents;
 
+// Get the user model instance
+const User = db.users;
+
 
 // create main model
 module.exports.UserModel = db.users;
@@ -71,8 +74,74 @@ exports.Twitter = async ({ name, email, image }) => {
     return user;
   }
 };
-// express interest in an event
 
+
+
+/**
+ * Updates user by their ID.
+ *
+ * @param {string} userId - The ID of the user to update.
+ * @param {object} req - The request object containing updated user details.
+ * @param {string} req.body.name - The updated name of the user.
+ * @param {string} req.body.email - The updated email of the user.
+ * @param {string} req.body.image - The updated image of the user.
+ * @returns {Promise<Object|null>} A promise that resolves to the updated event object or null if not found.
+ * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
+ */
+exports.updateUser = async (userId, req) => {
+
+  const user = await User.findByPk(userId);
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  // Check to determine if the user making the request is accessing only his/her details
+  if (user.id !== req.user.id) {
+    throw new AppError('Access Denied. You can only update your own details');
+  }
+
+  // Get the updated info from the body of the request
+  const updatedInfo = {
+    name: req.body.name,
+    email: req.body.email,
+    image: req.body.image,
+  };
+
+  // Update the details of the user
+  await User.update(updatedInfo, {
+    where: { id: userId },
+  });
+
+  // Then return the user details with updated info
+  return await Event.findByPk(userId);
+};
+
+
+
+/**
+ * Get user details by their ID.
+ *
+ * @param {string} userId - The ID of the user to update.
+ * @returns {Promise<Object|null>} A promise that resolves to the retrieved event object or null if not found.
+ * @throws {AppError} If the event is not found.
+ */
+exports.getUser = async (userId) => {
+  const user = await User.findByPk(userId);
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  // Check to determine if the user making the request is accessing only his/her details
+  if (user.id !== req.user.id) {
+    throw new AppError('Access Denied. You can only get your own details');
+  } else {
+    return user;
+  }
+};
+
+// express interest in an event
 exports.interestedEvent = async (params) => {
   const interested = await InterestedEvent.create({
     user_id: params.user_id,
