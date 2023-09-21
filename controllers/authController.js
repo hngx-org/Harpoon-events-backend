@@ -83,7 +83,7 @@ exports.Twitter = catchAsync(async (req, res, next) => {
   }
 });
 
-// signup/login with twitter
+// signup/login with google
 exports.Google = catchAsync(async (req, res, next) => {
   const { name, email, image } = req.body;
 
