@@ -2,13 +2,11 @@ const db = require('../models');
 const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
 
-
 // gets the interested event model instance
 const InterestedEvent = db.interestedEvents;
 
 // Get the user model instance
-const User = db.users;
-
+const UserModel = db.users;
 
 // create main model
 module.exports.UserModel = db.users;
@@ -75,8 +73,6 @@ exports.Twitter = async ({ name, email, image }) => {
   }
 };
 
-
-
 /**
  * Updates user by their ID.
  *
@@ -89,7 +85,6 @@ exports.Twitter = async ({ name, email, image }) => {
  * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
  */
 exports.updateUser = async (userId, req) => {
-
   const user = await User.findByPk(userId);
 
   if (!user) {
@@ -111,8 +106,6 @@ exports.updateUser = async (userId, req) => {
   // Then return the user details with updated info
   return await Event.findByPk(userId);
 };
-
-
 
 /**
  * Get user details by their ID.
