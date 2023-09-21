@@ -34,5 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  UserGroup.removeAttribute('id');
+
   return UserGroup;
 };
