@@ -3,17 +3,10 @@ const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
 
 // create main model
-<<<<<<< HEAD
-const User = db.users;
+
 const InterestedEvent = db.interestedEvents;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> d44cd122e796626ade556fdb5793081947d13b40
-=======
-export const UserModel = db.users;
->>>>>>> e19b3b611575bd2cb8583670fbaf6aa40a930426
->>>>>>> master
+
+const UserModel = db.users;
 
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await UserModel.findOne({ where: { email } });
@@ -52,39 +45,13 @@ exports.login = async ({ email, password }) => {
 };
 
 exports.Google = async ({ name, email, image }) => {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const User = await User.findOne({ where: { email } });
-  if (!User) {
-    throw new AppError('user not found', 401);
-  } else if (User) {
-    return User;
-  } else {
-=======
->>>>>>> master
-  const user = await User.findOne({ where: { email } });
-  if (!user) {
-    return await User.create({
-=======
   const user = await UserModel.findOne({ where: { email } });
   if (!user) {
     return await UserModel.create({
->>>>>>> e19b3b611575bd2cb8583670fbaf6aa40a930426
       name,
       email,
       image,
     });
-  }
-};
-
-exports.Twitter = async ({ name, email, image }) => {
-  const User = await User.findOne({ where: { email } });
-  if (!User) {
-    throw new AppError('user not found', 401);
-  } else if (User) {
-    return User;
   } else {
     return user;
   }
@@ -102,7 +69,6 @@ exports.Twitter = async ({ name, email, image }) => {
     return user;
   }
 };
-
 // express interest in an event
 
 exports.interestedEvent = async (params) => {
