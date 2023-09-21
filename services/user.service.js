@@ -104,7 +104,7 @@ exports.updateUser = async (userId, req) => {
   });
 
   // Then return the user details with updated info
-  return await Event.findByPk(userId);
+  return await UserModel.findByPk(userId);
 };
 
 /**
