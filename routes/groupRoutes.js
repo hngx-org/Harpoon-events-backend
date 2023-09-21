@@ -22,6 +22,7 @@ router
 router
   .route('/:groupId/members/:userId')
   .post(groupController.addUserToGroup)
+  .delete(groupController.removeUserFromGroup);
   
 
 module.exports = router;
