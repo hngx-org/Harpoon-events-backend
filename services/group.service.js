@@ -45,7 +45,7 @@ exports.addUserToGroup = async (req) => {
 };
 
 exports.createGroup = async (req) => {
-  const group = await Group.create({ title: req.title });
+  const group = await Group.create({ title: req.body.title });
   if (!group) {
     throw new AppError('Group creation not successful', 400);
   }
