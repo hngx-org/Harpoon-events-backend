@@ -12,6 +12,7 @@ const {
   Google,
   Twitter,
 } = require('../controllers/authController');
+const requireAuth = require('../middleware/requireAuth');
 
 router.post('/signup', signup);
 router.post('/login', login);
