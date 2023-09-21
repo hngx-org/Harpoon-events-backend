@@ -6,10 +6,7 @@ const jwt = require('jsonwebtoken');
 
 // create main model
 const User = db.users;
-<<<<<<< HEAD
 const InterestedEvent = db.interestedEvents;
-=======
->>>>>>> d44cd122e796626ade556fdb5793081947d13b40
 
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await User.findOne({ where: { email } });
@@ -48,23 +45,13 @@ exports.login = async ({ email, password }) => {
 };
 
 exports.Google = async ({ name, email, image }) => {
-<<<<<<< HEAD
-  const User = await User.findOne({ where: { email } });
-  if (!User) {
-    throw new AppError('user not found', 401);
-  } else if (User) {
-    return User;
-  } else {
-=======
   const user = await User.findOne({ where: { email } });
   if (!user) {
->>>>>>> d44cd122e796626ade556fdb5793081947d13b40
     return await User.create({
       name,
       email,
       image,
     });
-<<<<<<< HEAD
   }
 };
 
@@ -74,8 +61,6 @@ exports.Twitter = async ({ name, email, image }) => {
     throw new AppError('user not found', 401);
   } else if (User) {
     return User;
-=======
->>>>>>> d44cd122e796626ade556fdb5793081947d13b40
   } else {
     return user;
   }
@@ -105,7 +90,6 @@ exports.protect = async (req) => {
 
   return user;
 };
-<<<<<<< HEAD
 
 // express interest in an event
 
@@ -120,5 +104,3 @@ exports.interestedEvent = async (params) => {
   }
   throw new AppError('interest in event not created successfully', 400);
 };
-=======
->>>>>>> d44cd122e796626ade556fdb5793081947d13b40

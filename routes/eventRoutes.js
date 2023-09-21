@@ -32,14 +32,10 @@ router
 // Update a Comment:
 //Delete a Comment:
 
-<<<<<<< HEAD
-=======
 // comments with images
 router
   .route('/comments/:commentId/images')
   .post(upload.single('image'), commentController.addImageToComments)
   .get(commentController.getImagesfromComments);
 
-
->>>>>>> d44cd122e796626ade556fdb5793081947d13b40
 module.exports = router;
