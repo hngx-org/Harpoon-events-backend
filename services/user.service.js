@@ -1,24 +1,26 @@
-const { promisify } = require('util');
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
-const jwt = require('jsonwebtoken');
 
 // create main model
+<<<<<<< HEAD
 const User = db.users;
 <<<<<<< HEAD
 const InterestedEvent = db.interestedEvents;
 =======
 >>>>>>> d44cd122e796626ade556fdb5793081947d13b40
+=======
+export const UserModel = db.users;
+>>>>>>> e19b3b611575bd2cb8583670fbaf6aa40a930426
 
 exports.signup = async ({ name, email, image, password }) => {
-  const existingUser = await User.findOne({ where: { email } });
+  const existingUser = await UserModel.findOne({ where: { email } });
   if (existingUser) {
     throw new AppError('This user already exists', 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
-  return await User.create({
+  return await UserModel.create({
     name,
     email,
     image,
@@ -28,7 +30,7 @@ exports.signup = async ({ name, email, image, password }) => {
 
 exports.login = async ({ email, password }) => {
   // Check if a user with the provided email exists in the database
-  const validUser = await User.findOne({ where: { email } });
+  const validUser = await UserModel.findOne({ where: { email } });
 
   // If no user is found, throw an error indicating that the user was not found
   if (!validUser) {
@@ -49,6 +51,7 @@ exports.login = async ({ email, password }) => {
 
 exports.Google = async ({ name, email, image }) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const User = await User.findOne({ where: { email } });
   if (!User) {
     throw new AppError('user not found', 401);
@@ -60,6 +63,11 @@ exports.Google = async ({ name, email, image }) => {
   if (!user) {
 >>>>>>> d44cd122e796626ade556fdb5793081947d13b40
     return await User.create({
+=======
+  const user = await UserModel.findOne({ where: { email } });
+  if (!user) {
+    return await UserModel.create({
+>>>>>>> e19b3b611575bd2cb8583670fbaf6aa40a930426
       name,
       email,
       image,
@@ -81,29 +89,17 @@ exports.Twitter = async ({ name, email, image }) => {
   }
 };
 
-exports.protect = async (req) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-  //validate token
-  if (!token) {
-    throw new AppError('Log in to get access', 401);
-  }
-
-  // Verification of the token
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  // Check if the user still exists
-  const user = await User.findByPk(decoded.id);
-
+exports.Twitter = async ({ name, email, image }) => {
+  const user = await UserModel.findOne({ where: { email } });
   if (!user) {
-    throw new AppError('This user no longer exists', 401);
+    return await UserModel.create({
+      name,
+      email,
+      image,
+    });
+  } else {
+    return user;
   }
-
-  return user;
 };
 <<<<<<< HEAD
 

@@ -2,15 +2,15 @@ const express = require('express');
 const multer = require('multer');
 
 const eventController = require('../controllers/eventController');
-const authController = require('../controllers/authController');
 const commentController = require('../controllers/commentController');
+const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
 const upload = multer({ dest: 'uploads/' });
 
 // middleware to check if user is logged in
-router.use(authController.protect);
+router.use(requireAuth);
 
 // Event routes
 router
@@ -32,14 +32,10 @@ router
 // Update a Comment:
 //Delete a Comment:
 
-<<<<<<< HEAD
-=======
 // comments with images
 router
   .route('/comments/:commentId/images')
   .post(upload.single('image'), commentController.addImageToComments)
   .get(commentController.getImagesfromComments);
 
-
->>>>>>> d44cd122e796626ade556fdb5793081947d13b40
 module.exports = router;
