@@ -50,7 +50,7 @@ app.use(xss());
 //MOUNTING THE ROUTES
 app.use(`/api/v1/users`, userRouter);
 app.use(`/api/v1/events`, eventRouter);
-app.use('/api/groups', groupRouter);
+app.use('/api/v1/groups', groupRouter);
 
 // This middleware can only execute if the above two where not executed, hence it is a better way to handle errors
 // no need to call next though
