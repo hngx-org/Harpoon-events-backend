@@ -33,6 +33,8 @@ exports.createEvent = async (req) => {
   };
   const event = await Event.create(info);
 
+  console.log(event, 'create event');
+
   if (!event) {
     throw new AppError('Event not created successfully', 400);
   }
@@ -137,5 +139,6 @@ exports.getSingleEvent = async (eventId) => {
  */
 exports.getAllEvents = async () => {
   const events = await Event.findAll();
+  console.log(events);
   return events;
 };

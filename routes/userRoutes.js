@@ -22,5 +22,6 @@ router
 
 // user expresses interest in an event
 router.post('/:userId/interests/:eventId', userController.interestedEvent);
+router.delete('/:userId/interests/:eventId', userController.removeInterest);
 
 module.exports = router;
