@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const AppError = require('../utils/appError');
 
 // create main model
-export const UserModel = db.users;
+module.exports.UserModel = db.users;
 
 exports.signup = async ({ name, email, image, password }) => {
   const existingUser = await UserModel.findOne({ where: { email } });

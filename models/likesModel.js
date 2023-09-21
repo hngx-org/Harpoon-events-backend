@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Like = sequelize.define('likes', {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     user_id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     comment_id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
