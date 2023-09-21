@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const InterestedEvent = sequelize.define('interested_events', {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     event_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     user_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {

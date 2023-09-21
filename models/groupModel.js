@@ -1,12 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('groups', {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     title: {
-      type: DataTypes.UUID,
+      type: DataTypes.UUIDV4,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
