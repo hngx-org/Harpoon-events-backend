@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         model: 'events',
         key: 'id',
       },
-      unique: 'unique_event_user_interest',
     },
     user_id: {
       type: DataTypes.STRING,
@@ -17,17 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         model: 'users',
         key: 'id',
       },
-      unique: 'unique_event_user_interest',
     },
-  }, {
-    // Define a unique constraint name for the combination of event_id and user_id
-    indexes: [
-      {
-        unique: true,
-        fields: ['event_id', 'user_id'],
-        name: 'unique_event_user_interest',
-      },
-    ],
   });
 
   InterestedEvent.associate = (models) => {
@@ -47,4 +36,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return InterestedEvent;
 };
-
