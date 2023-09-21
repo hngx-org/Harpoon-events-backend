@@ -1,14 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define('comments', {
     id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     body: {
       type: DataTypes.TEXT,
     },
     event_id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'events',
@@ -16,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     user_id: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'users',
@@ -43,6 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       through: models.CommentImages,
       foreignKey: 'comment_id',
       as: 'comment_images',
+      foreignKeyConstraint: true,
     });
 
     // Comment relationship with Like
@@ -50,9 +53,9 @@ module.exports = (sequelize, DataTypes) => {
       through: models.Likes,
       foreignKey: 'comment_id',
       as: 'likes',
+      foreignKeyConstraint: true,
     });
   };
 
   return Comment;
 };
-

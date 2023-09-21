@@ -1,7 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
   const Image = sequelize.define('images', {
     id: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
     url: {
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     Image.belongsToMany(models.Comment, {
       through: models.CommentImages,
       foreignKey: 'image_id',
+      foreignKeyConstraint: true,
     });
 
     // Image relationship with Group (group image)
@@ -31,4 +33,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return Image;
 };
-
