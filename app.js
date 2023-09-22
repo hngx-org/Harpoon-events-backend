@@ -38,7 +38,7 @@ const options = {
       },
     ],
   },
-  apis: ['./src/routes*.js', './app.js'],
+  apis: ['./routes/*.js', './app.js'],
 };
 
 const specs = swaggerJSDoc(options);
@@ -61,9 +61,10 @@ const limiter = rateLimit({
 
 /**
  * @swagger
- * /:
+ *  /:
  *   get:
  *     summary: Returns a message that the api is working
+ *     tags: [Test]
  *     responses:
  *       200:
  *         description: This endpoint returns a message if the api is working.
