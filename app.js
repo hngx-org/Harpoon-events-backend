@@ -31,7 +31,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://web-01.okoth.tech/api/v1/',
+        url: 'http://web-01.okoth.tech',
       },
       {
         url: 'http://localhost:8000',
