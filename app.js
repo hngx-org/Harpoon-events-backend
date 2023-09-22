@@ -27,18 +27,19 @@ const options = {
     info: {
       title: 'HNGx - Team Harpoon API',
       version: '1.0.0',
-      description: 'An Event Application API'
+      description: 'An Event Application API',
     },
     servers: [
       {
-        url: 'http://localhost:8000'
+        url: 'http://localhost:8000',
       },
       {
-        url: 'https://harpoon-events-backend.onrender.com/'
-      }
-    ]
+        url: 'http://web-01.okoth.tech/api/v1',
+      },
+      
+    ],
   },
-  apis: ['./src/routes*.js', './app.js'],
+  apis: ['./routes/*.js', './app.js'],
 };
 
 const specs = swaggerJSDoc(options)
