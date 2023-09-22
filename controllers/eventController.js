@@ -5,6 +5,8 @@ const EventService = require('./../services/event.service');
 
 const Event = db.events;
 
+
+
 exports.createEvent = catchAsync(async (req, res, next) => {
   const event = await EventService.createEvent(req);
 
@@ -13,6 +15,8 @@ exports.createEvent = catchAsync(async (req, res, next) => {
     event,
   });
 });
+
+
 
 // Deleting an event
 exports.deleteEvent = catchAsync(async (req, res, next) => {
