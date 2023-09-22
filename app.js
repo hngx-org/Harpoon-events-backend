@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express')
+const swagger = require('swagger-ui-express')
 const yaml = require('yamljs');
 
 //importing utils
@@ -21,9 +21,6 @@ const swaggerDocs = yaml.load('./swagger.yaml');
 
 app.use(cors());
 
-app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
-// GLOBAL MIDDLEWARES
-
 // set security http
 app.use(helmet());
 //including global middleware
@@ -38,18 +35,6 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, Please try again in an hour',
 });
 
-/**
- * @swagger
- *  /:
- *   get:
- *     summary: Returns a message that the api is working
- *     tags: [Test]
- *     responses:
- *       200:
- *         description: This endpoint returns a message if the api is working.
- */
-
-// test the endpoint http://localhost:8000/
 app.get('/', (req, res) => {
   res.json({ message: 'api is working' });
 });
@@ -63,6 +48,7 @@ app.use(express.json({ limit: '10kb' }));
 app.use(xss());
 
 //MOUNTING THE ROUTES
+app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 app.use(`/api/v1/users`, userRouter);
 app.use(`/api/v1/events`, eventRouter);
 app.use('/api/v1/groups', groupRouter);
