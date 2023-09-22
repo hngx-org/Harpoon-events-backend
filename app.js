@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express')
-const swaggerJSDoc = require('swagger-jsdoc');
+const yaml = require('yamljs');
 
 //importing utils
 const AppError = require('./utils/appError');
@@ -17,32 +17,11 @@ const eventRouter = require(`${__dirname}/routes/eventRoutes`);
 const groupRouter = require(`${__dirname}/routes/groupRoutes`);
 
 const app = express();
+const swaggerDocs = yaml.load('./swagger.yaml');
 
 app.use(cors());
 
-const options = {
-  failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'HNGx - Team Harpoon API',
-      version: '1.0.0',
-      description: 'An Event Application API',
-    },
-    servers: [
-      {
-        url: 'http://localhost:8000',
-      },
-      {
-        url: 'http://web-01.okoth.tech'
-      }
-    ]
-  },
-  apis: ['./routes/*.js', './app.js'],
-};
-
-const specs = swaggerJSDoc(options)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 // GLOBAL MIDDLEWARES
 
 // set security http

@@ -31,7 +31,8 @@
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1",
     "validator": "^13.9.0",
-    "xss-clean": "^0.1.4"
+    "xss-clean": "^0.1.4",
+    "yaml": "^2.3.2"
   },
   "devDependencies": {
     "eslint": "^8.31.0",
