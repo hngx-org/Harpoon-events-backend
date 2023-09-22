@@ -34,11 +34,11 @@ const options = {
         url: 'http://localhost:8000'
       },
       {
-        url: 'https://harpoon-events-backend.onrender.com/'
+        url: 'http://web-01.okoth.tech'
       }
     ]
   },
-  apis: ['./src/routes*.js', './app.js'],
+  apis: ['./routes/*.js', './app.js'],
 };
 
 const specs = swaggerJSDoc(options)
@@ -61,9 +61,10 @@ const limiter = rateLimit({
 
 /**
  * @swagger
- * /:
+ *  /:
  *   get:
  *     summary: Returns a message that the api is working
+ *     tags: [Test]
  *     responses:
  *       200:
  *         description: This endpoint returns a message if the api is working.
