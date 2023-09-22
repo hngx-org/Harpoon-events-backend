@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Image.associate = (models) => {
     // Image relationship with Event (thumbnail)
-    Image.hasOne(models.Event, {
+    Image.hasOne(models.EventThumbnail, {
       foreignKey: 'thumbnail_id',
       as: 'event_thumbnail',
     });
