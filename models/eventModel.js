@@ -40,12 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     end_time: {
       type: DataTypes.TIME,
       allowNull: false,
-    },
-    thumbnail: {
-      type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-    },
+    }, 
   });
 
   Event.associate = (models) => {
@@ -57,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
 
     // Event relationship with Image (thumbnail)
     Event.belongsTo(models.Image, {
-      foreignKey: 'thumbnail_id',
+      foreignKey: 'event_id',
       as: 'thumbnail',
     });
 

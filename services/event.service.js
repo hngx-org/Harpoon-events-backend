@@ -31,7 +31,6 @@ exports.createEvent = async (req) => {
     end_time: req.body.end_time,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    image: req.body.image,
   };
   const event = await Event.create(info);
 
@@ -81,7 +80,6 @@ exports.deleteEvent = async (eventId, req) => {
  * @param {string} req.body.end_time - The updated end time of the event.
  * @param {string} req.body.start_date - The updated start date of the event.
  * @param {string} req.body.end_date - The updated end date of the event.
- * @param {string} req.body.image - The updated image URL for the event.
  * @returns {Promise<Object|null>} A promise that resolves to the updated event object or null if not found.
  * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
  */
@@ -106,7 +104,6 @@ exports.updateEvent = async (eventId, req) => {
     end_time: req.body.end_time,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    image: req.body.image,
   };
   await Event.update(updatedInfo, {
     where: { id: eventId },
