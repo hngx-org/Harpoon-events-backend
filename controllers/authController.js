@@ -15,7 +15,7 @@ const signToken = (id) => {
 
 // signup user
 exports.signup = catchAsync(async (req, res, next) => {
-  const { name, email, avatar, password, id } =
+  const { name, email, avatar, password } =
     await signupValidationSchema.validateAsync(req.body);
   const user = await UserService.signup({
     name,
