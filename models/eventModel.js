@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
-    creator: {
+    creator_id: {
       type: DataTypes.STRING,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
@@ -40,24 +40,19 @@ module.exports = (sequelize, DataTypes) => {
     end_time: {
       type: DataTypes.TIME,
       allowNull: false,
-    },
-    thumbnail: {
-      type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-    },
+    }, 
   });
 
   Event.associate = (models) => {
     // Event relationship with User (creator)
     Event.belongsTo(models.User, {
-      foreignKey: 'creator',
+      foreignKey: 'creator_id',
       as: 'creator',
     });
 
     // Event relationship with Image (thumbnail)
     Event.belongsTo(models.Image, {
-      foreignKey: 'thumbnail_id',
+      foreignKey: 'event_id',
       as: 'thumbnail',
     });
 
@@ -73,6 +68,8 @@ module.exports = (sequelize, DataTypes) => {
     Event.hasMany(models.Comment, {
       foreignKey: 'event_id',
     });
+
+    models.Comment.belongsTo(Event);
   };
   return Event;
 };

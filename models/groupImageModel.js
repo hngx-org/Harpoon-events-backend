@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const GroupImages = sequelize.define('group_images', {
+  const GroupImages = sequelize.define('group_image', {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     group_id: {
       type: DataTypes.STRING,
@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
       foreignKeyConstraint: true,
     });
   };
+
+  GroupImages.removeAttribute('id');
 
   return GroupImages;
 };

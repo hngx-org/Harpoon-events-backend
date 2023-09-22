@@ -34,5 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Like.removeAttribute('id');
+
   return Like;
 };

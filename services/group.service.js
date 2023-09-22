@@ -41,7 +41,7 @@ exports.addUserToGroup = async (req) => {
     where: { id: groupId },
   });
 
-  return await Group.findByPk(eventId);
+  return await Group.findByPk(groupId);
 };
 
 exports.createGroup = async (req) => {

@@ -12,7 +12,7 @@ const UserModel = db.users;
 // create main model
 module.exports.UserModel = db.users;
 
-exports.signup = async ({ name, email, image, password }) => {
+exports.signup = async ({ name, email, avatar, password }) => {
   const existingUser = await UserModel.findOne({ where: { email } });
   if (existingUser) {
     throw new AppError('This user already exists', 400);
@@ -22,7 +22,7 @@ exports.signup = async ({ name, email, image, password }) => {
   return await UserModel.create({
     name,
     email,
-    image,
+    avatar,
     password: hashedPassword,
   });
 };
@@ -48,26 +48,26 @@ exports.login = async ({ email, password }) => {
   return validUser;
 };
 
-exports.Google = async ({ name, email, image }) => {
+exports.Google = async ({ name, email, avatar }) => {
   const user = await UserModel.findOne({ where: { email } });
   if (!user) {
     return await UserModel.create({
       name,
       email,
-      image,
+      avatar,
     });
   } else {
     return user;
   }
 };
 
-exports.Twitter = async ({ name, email, image }) => {
+exports.Twitter = async ({ name, email, avatar }) => {
   const user = await UserModel.findOne({ where: { email } });
   if (!user) {
     return await UserModel.create({
       name,
       email,
-      image,
+      avatar,
     });
   } else {
     return user;
@@ -81,7 +81,7 @@ exports.Twitter = async ({ name, email, image }) => {
  * @param {object} req - The request object containing updated user details.
  * @param {string} req.body.name - The updated name of the user.
  * @param {string} req.body.email - The updated email of the user.
- * @param {string} req.body.image - The updated image of the user.
+ * @param {string} req.body.avatar - The updated avatar of the user.
  * @returns {Promise<Object|null>} A promise that resolves to the updated event object or null if not found.
  * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
  */
@@ -96,7 +96,7 @@ exports.updateUser = async (userId, req) => {
   const updatedInfo = {
     name: req.body.name,
     email: req.body.email,
-    image: req.body.image,
+    avatar: req.body.avatar,
   };
 
   // Update the details of the user

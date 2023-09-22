@@ -4,6 +4,8 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express')
+const swaggerJSDoc = require('swagger-jsdoc');
 
 //importing utils
 const AppError = require('./utils/appError');
@@ -18,6 +20,29 @@ const app = express();
 
 app.use(cors());
 
+const options = {
+  failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'HNGx - Team Harpoon API',
+      version: '1.0.0',
+      description: 'An Event Application API'
+    },
+    servers: [
+      {
+        url: 'http://localhost:8000'
+      },
+      {
+        url: 'https://harpoon-events-backend.onrender.com/'
+      }
+    ]
+  },
+  apis: ['./src/routes*.js', './app.js'],
+};
+
+const specs = swaggerJSDoc(options)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 // GLOBAL MIDDLEWARES
 
 // set security http
@@ -33,6 +58,16 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, Please try again in an hour',
 });
+
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Returns a message that the api is working
+ *     responses:
+ *       200:
+ *         description: This endpoint returns a message if the api is working.
+ */
 
 // test the endpoint http://localhost:8000/
 app.get('/', (req, res) => {
