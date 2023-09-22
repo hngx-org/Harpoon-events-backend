@@ -4,8 +4,9 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express')
+const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
+const yaml = require("yamljs");
 
 //importing utils
 const AppError = require('./utils/appError');
@@ -17,6 +18,7 @@ const eventRouter = require(`${__dirname}/routes/eventRoutes`);
 const groupRouter = require(`${__dirname}/routes/groupRoutes`);
 
 const app = express();
+const swaggerDocs = yaml.load('./swagger.yaml');
 
 app.use(cors());
 
@@ -31,17 +33,17 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:8000',
+        url: 'http://web-01.okoth.tech',
       },
       {
-        url: 'http://web-01.okoth.tech/api/v1/',
+        url: 'http://localhost:8000',
       },
     ],
   },
-  apis: ['./src/routes*.js', './app.js'],
+  apis: ['./routes/*.js', './app.js'],
 };
 
-const specs = swaggerJSDoc(options)
+const specs = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 // GLOBAL MIDDLEWARES
 
@@ -61,9 +63,10 @@ const limiter = rateLimit({
 
 /**
  * @swagger
- * /:
+ *  /:
  *   get:
  *     summary: Returns a message that the api is working
+ *     tags: [Test]
  *     responses:
  *       200:
  *         description: This endpoint returns a message if the api is working.
@@ -86,6 +89,7 @@ app.use(xss());
 app.use(`/api/v1/users`, userRouter);
 app.use(`/api/v1/events`, eventRouter);
 app.use('/api/v1/groups', groupRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // This middleware can only execute if the above two where not executed, hence it is a better way to handle errors
 // no need to call next though

@@ -154,7 +154,6 @@ exports.removeInterest = async (params) => {
     },
   });
 
-  console.log('removed', interested);
   if (interested == 0) {
     return {
       message:

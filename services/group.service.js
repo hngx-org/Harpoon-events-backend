@@ -37,11 +37,9 @@ exports.addUserToGroup = async (req) => {
   }
 
   const updatedInfo = { user_id: userId, group_id: groupId };
-  await UserGroup.update(updatedInfo, {
-    where: { id: groupId },
+  return await UserGroup.update(updatedInfo, {
+    where: { group_id: groupId },
   });
-
-  return await Group.findByPk(groupId);
 };
 
 exports.createGroup = async (req) => {

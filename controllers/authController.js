@@ -79,7 +79,7 @@ exports.Twitter = catchAsync(async (req, res, next) => {
         expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
-      .json({ ...user, token });
+      .json({ status: 'success', user, token });
   }
 });
 
@@ -87,7 +87,7 @@ exports.Twitter = catchAsync(async (req, res, next) => {
 exports.Google = catchAsync(async (req, res, next) => {
   const { name, email, avatar } = req.body;
 
-  const user = await UserService.Twitter({ name, email, avatar });
+  const user = await UserService.Google({ name, email, avatar });
   if (user) {
     const token = signToken(user.id);
 
@@ -99,6 +99,6 @@ exports.Google = catchAsync(async (req, res, next) => {
         expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
-      .json({ ...user, token });
+      .json({ status: 'success', user, token });
   }
 });

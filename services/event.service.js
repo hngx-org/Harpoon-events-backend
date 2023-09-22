@@ -58,7 +58,7 @@ exports.deleteEvent = async (eventId, req) => {
   }
 
   // Check to determine if the user making the request is the creator of the event
-  if (event.creator !== req.user.id) {
+  if (event.creator_id !== req.user.id) {
     throw new AppError('Access to delete event not granted.');
   }
 
@@ -91,7 +91,7 @@ exports.updateEvent = async (eventId, req) => {
   }
 
   // Check to determine if the user making the request is the creator of the event
-  if (event.creator !== req.user.id) {
+  if (event.creator_id !== req.user.id) {
     throw new AppError('Access to update event not granted.');
   }
 
