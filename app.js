@@ -27,11 +27,11 @@ const options = {
     info: {
       title: 'HNGx - Team Harpoon API',
       version: '1.0.0',
-      description: 'An Event Application API'
+      description: 'An Event Application API',
     },
     servers: [
       {
-        url: 'http://localhost:8000'
+        url: 'http://localhost:8000',
       },
       {
         url: 'http://web-01.okoth.tech'

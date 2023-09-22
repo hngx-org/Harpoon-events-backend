@@ -2,6 +2,8 @@ const db = require('../models');
 const AppError = require('../utils/appError');
 
 const Event = db.events;
+const Comment = db.comments;
+const ThumbNail = db.eventThumbnail;
 
 /**
  * Creates a new event.
@@ -23,17 +25,14 @@ exports.createEvent = async (req) => {
   const info = {
     title: req.body.title,
     description: req.body.description,
-    creator: req.user.id,
+    creator_id: req.user.id,
     location: req.body.location,
     start_time: req.body.start_time,
     end_time: req.body.end_time,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    image: req.body.image,
   };
   const event = await Event.create(info);
-
-  console.log(event, 'create event');
 
   if (!event) {
     throw new AppError('Event not created successfully', 400);
@@ -81,7 +80,6 @@ exports.deleteEvent = async (eventId, req) => {
  * @param {string} req.body.end_time - The updated end time of the event.
  * @param {string} req.body.start_date - The updated start date of the event.
  * @param {string} req.body.end_date - The updated end date of the event.
- * @param {string} req.body.image - The updated image URL for the event.
  * @returns {Promise<Object|null>} A promise that resolves to the updated event object or null if not found.
  * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
  */
@@ -100,13 +98,12 @@ exports.updateEvent = async (eventId, req) => {
   const updatedInfo = {
     title: req.body.title,
     description: req.body.description,
-    creator: req.user.id,
+    creator_id: req.user.id,
     location: req.body.location,
     start_time: req.body.start_time,
     end_time: req.body.end_time,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    image: req.body.image,
   };
   await Event.update(updatedInfo, {
     where: { id: eventId },
@@ -124,12 +121,13 @@ exports.updateEvent = async (eventId, req) => {
  */
 exports.getSingleEvent = async (eventId) => {
   const event = await Event.findByPk(eventId);
+  const comments = await Comment.findAll({ where: { event_id: eventId } });
 
   if (!event) {
     throw new AppError('Event not found', 404);
   }
 
-  return event;
+  return { ...event.dataValues, comments };
 };
 
 /**
@@ -139,6 +137,5 @@ exports.getSingleEvent = async (eventId) => {
  */
 exports.getAllEvents = async () => {
   const events = await Event.findAll();
-  console.log(events);
   return events;
 };

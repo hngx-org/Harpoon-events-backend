@@ -126,6 +126,7 @@ exports.getUser = async (userId) => {
   return user;
 };
 
+
 // express interest in an event
 exports.interestedEvent = async (params) => {
   const interested = await InterestedEvent.create({
@@ -139,7 +140,7 @@ exports.interestedEvent = async (params) => {
   throw new AppError('interest in event not created successfully', 400);
 };
 
-exports.reomveInterest = async (params) => {
+exports.removeInterest = async (params) => {
   const interested = await InterestedEvent.destroy({
     where: {
       [Op.and]: [
@@ -157,16 +158,16 @@ exports.reomveInterest = async (params) => {
   if (interested == 0) {
     return {
       message:
-        'Event might not exist or you previously had not shown intrest in this event',
+        'Event might not exist or you previously had not shown interest in this event',
     };
   }
   if (interested >= 1) {
-    //while greater than is beacuse, ordinarily the DB should be structured in way you wont show interest more than once
-    //composite uniquie of user_id and event_id
+    //while greater than is because, ordinarily the DB should be structured in way you wont show interest more than once
+    //composite unique of user_id and event_id
     //so change might more than one row might have got destroyed reason for a greater than one instaed of just ==1
-    //succesfully removed interest
+    //successfully removed interest
     return {
-      message: 'Interest sucessfully removed',
+      message: 'Interest successfully removed',
     };
   } else {
     throw new AppError('interest in event not created successfully', 400);

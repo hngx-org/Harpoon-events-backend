@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
 
     // User relationship with Event
     User.hasMany(models.Event, {
-      foreignKey: 'creator',
+      foreignKey: 'creator_id',
     });
     models.Event.belongsTo(User);
 

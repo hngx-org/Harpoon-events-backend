@@ -24,7 +24,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
   const user = await UserService.getUser(userId);
 
   res.status(200).json({
-    status: 'sucess!',
+    status: 'success!',
     user,
   });
 });
@@ -44,7 +44,7 @@ exports.interestedEvent = catchAsync(async (req, res, next) => {
   }
 
   res.status(200).json({
-    status: 'sucess!',
+    status: 'success!',
     interested: interested,
   });
 });
@@ -55,7 +55,7 @@ exports.removeInterest = catchAsync(async (req, res, next) => {
     event_id: req.params.eventId,
   };
 
-  const interested = await UserService.reomveInterest(params);
+  const interested = await UserService.removeInterest(params);
   if (!interested) {
     return next(
       new AppError('interest in event not created successfully', 400)
@@ -63,7 +63,7 @@ exports.removeInterest = catchAsync(async (req, res, next) => {
   }
 
   res.status(200).json({
-    status: 'sucess!',
+    status: 'success!',
     interested: interested,
   });
 });
