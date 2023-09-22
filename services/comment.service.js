@@ -52,12 +52,18 @@ exports.getAllComments = async (event_id) => {
  */
 exports.addImageToComments = async (req) => {
   const commentId = req.params.commentId;
-  const { originalname, path } = req.file;
+  const { thumbnail } = req.body;
+
+
 
   const newImage = await Image.create({
-    url: `/uploads/${originalname}`,
+    url: thumbnail,
     CommentId: commentId,
   });
+
+  if (newImage) {
+    throw new AppError('Thumbnail not created successfully', 400);
+  }
 
   return newImage;
 };

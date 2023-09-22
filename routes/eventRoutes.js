@@ -3,7 +3,7 @@ const multer = require('multer');
 
 const {
   getAllEvent,
-  createEvent, 
+  createEvent,
   getSingleEvent,
   updateEvent,
   deleteEvent
@@ -45,8 +45,8 @@ router
 
 // comments with images
 router
-  .route('/comments/:commentId/images')
-  .post(upload.single('image'), addImageToComments)
+  .route('/comments/:commentId/thumbnail')
+  .post(addImageToComments)
   .get(getImagesfromComments);
 
 module.exports = router;
