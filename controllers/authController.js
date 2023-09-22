@@ -79,7 +79,7 @@ exports.Twitter = catchAsync(async (req, res, next) => {
         expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
-      .json({ ...user, token });
+      .json({ status: 'success', user, token });
   }
 });
 
@@ -99,6 +99,6 @@ exports.Google = catchAsync(async (req, res, next) => {
         expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
-      .json({ ...user, token });
+      .json({ status: 'success', user, token });
   }
 });
