@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express')
+const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 
 //importing utils
@@ -31,17 +31,17 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:8000',
+        url: 'http://web-01.okoth.tech/api/v1/',
       },
       {
-        url: 'http://web-01.okoth.tech'
-      }
-    ]
+        url: 'http://localhost:8000',
+      },
+    ],
   },
   apis: ['./routes/*.js', './app.js'],
 };
 
-const specs = swaggerJSDoc(options)
+const specs = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 // GLOBAL MIDDLEWARES
 
