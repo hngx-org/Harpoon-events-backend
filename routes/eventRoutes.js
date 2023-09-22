@@ -14,6 +14,8 @@ const {
   addImageToComments,
   getImagesfromComments
 } = require('../controllers/commentController');
+
+
 const requireAuth = require('../middleware/requireAuth');
 
 const upload = multer({ dest: 'uploads/' });

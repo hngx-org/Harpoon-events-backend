@@ -73,6 +73,8 @@ module.exports = (sequelize, DataTypes) => {
     Event.hasMany(models.Comment, {
       foreignKey: 'event_id',
     });
+
+    models.Comment.belongsTo(Event);
   };
   return Event;
 };
