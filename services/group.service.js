@@ -11,6 +11,7 @@ const AppError = require('../utils/appError');
 const Group = db.groups;
 const UserGroup = db.userGroups;
 
+
 /**
  * Retrieves a single group by its ID.
  *
@@ -38,7 +39,7 @@ exports.addUserToGroup = async (req) => {
 
   const updatedInfo = { user_id: userId, group_id: groupId };
   await UserGroup.update(updatedInfo, {
-    where: { id: groupId },
+    where: { group_id: groupId },
   });
 
   return await Group.findByPk(groupId);
