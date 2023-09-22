@@ -100,7 +100,7 @@ exports.updateEvent = async (eventId, req) => {
   const updatedInfo = {
     title: req.body.title,
     description: req.body.description,
-    creator: req.user.id,
+    creator_id: req.user.id,
     location: req.body.location,
     start_time: req.body.start_time,
     end_time: req.body.end_time,
@@ -137,7 +137,7 @@ exports.getSingleEvent = async (eventId) => {
  * Retrieves all events.
  *
  * @returns {Promise<Array<Object>>} A promise that resolves to an array of all events.
- */
+ */ 
 exports.getAllEvents = async () => {
   const events = await Event.findAll();
   return events;
