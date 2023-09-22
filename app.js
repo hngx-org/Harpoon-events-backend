@@ -6,6 +6,8 @@ const xss = require('xss-clean');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
+const swagger = require('swagger-ui-express')
+const yaml = require('yamljs');
 
 //importing utils
 const AppError = require('./utils/appError');
@@ -17,6 +19,7 @@ const eventRouter = require(`${__dirname}/routes/eventRoutes`);
 const groupRouter = require(`${__dirname}/routes/groupRoutes`);
 
 const app = express();
+const swaggerDocs = yaml.load('./swagger.yaml');
 
 app.use(cors());
 
@@ -31,17 +34,17 @@ const options = {
     },
     servers: [
       {
-        url: 'http://web-01.okoth.tech',
-      },
-      {
         url: 'http://localhost:8000',
       },
-    ],
+      {
+        url: 'http://web-01.okoth.tech'
+      }
+    ]
   },
   apis: ['./routes/*.js', './app.js'],
 };
 
-const specs = swaggerJSDoc(options);
+const specs = swaggerJSDoc(options)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 // GLOBAL MIDDLEWARES
 
@@ -59,18 +62,6 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, Please try again in an hour',
 });
 
-/**
- * @swagger
- *  /:
- *   get:
- *     summary: Returns a message that the api is working
- *     tags: [Test]
- *     responses:
- *       200:
- *         description: This endpoint returns a message if the api is working.
- */
-
-// test the endpoint http://localhost:8000/
 app.get('/', (req, res) => {
   res.json({ message: 'api is working' });
 });
@@ -84,6 +75,7 @@ app.use(express.json({ limit: '10kb' }));
 app.use(xss());
 
 //MOUNTING THE ROUTES
+app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 app.use(`/api/v1/users`, userRouter);
 app.use(`/api/v1/events`, eventRouter);
 app.use('/api/v1/groups', groupRouter);
