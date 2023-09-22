@@ -2,6 +2,8 @@ const db = require('../models');
 const AppError = require('../utils/appError');
 
 const Event = db.events;
+const Comment = db.comments;
+const ThumbNail = db.eventThumbnail;
 
 /**
  * Creates a new event.
@@ -32,8 +34,6 @@ exports.createEvent = async (req) => {
     image: req.body.image,
   };
   const event = await Event.create(info);
-
-  console.log(event, 'create event');
 
   if (!event) {
     throw new AppError('Event not created successfully', 400);
@@ -124,12 +124,13 @@ exports.updateEvent = async (eventId, req) => {
  */
 exports.getSingleEvent = async (eventId) => {
   const event = await Event.findByPk(eventId);
+  const comments = await Comment.findAll({ where: { event_id: eventId } });
 
   if (!event) {
     throw new AppError('Event not found', 404);
   }
 
-  return event;
+  return { ...event.dataValues, comments };
 };
 
 /**
@@ -139,6 +140,5 @@ exports.getSingleEvent = async (eventId) => {
  */
 exports.getAllEvents = async () => {
   const events = await Event.findAll();
-  console.log(events);
   return events;
 };
