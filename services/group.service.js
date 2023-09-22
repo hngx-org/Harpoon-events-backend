@@ -10,7 +10,7 @@ const AppError = require('../utils/appError');
 
 const Group = db.groups;
 const UserGroup = db.userGroups;
-const Events = db.events;
+
 
 /**
  * Retrieves a single group by its ID.
