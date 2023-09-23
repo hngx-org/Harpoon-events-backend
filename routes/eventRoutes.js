@@ -49,6 +49,7 @@ const {
   getSingleEvent,
   updateEvent,
   deleteEvent,
+  addThumbNailToEvent,
 } = require('../controllers/eventController');
 const {
   createComment,
@@ -72,7 +73,8 @@ router
   .route('/:eventId')
   .get(getSingleEvent)
   .put(updateEvent)
-  .delete(deleteEvent);
+  .delete(deleteEvent)
+  .post(addThumbNailToEvent);
 
 // Comments Routes
 router.route('/:eventId/comments').post(createComment).get(getAllComments);
