@@ -4,7 +4,7 @@
 		"name": "Team Harpoon",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "28144776",
-		"_collection_link": "https://restless-escape-117328.postman.co/workspace/1ec6c464-35e6-4b26-afda-453c8da3977b/collection/28144776-fdcc6c05-2212-467b-9078-55354d9d9486?action=share&source=collection_link&creator=28144776"
+		"_collection_link": "https://restless-escape-117328.postman.co/workspace/HNG-Internship~1ec6c464-35e6-4b26-afda-453c8da3977b/collection/28144776-fdcc6c05-2212-467b-9078-55354d9d9486?action=share&source=collection_link&creator=28144776"
 	},
 	"item": [
 		{
@@ -359,6 +359,45 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Pool Party\",\r\n    \"description\": \"Let's get soaked\",\r\n    \"location\": \"Lag\",\r\n    \"start_date\": \"2024-09-22\",\r\n    \"end_date\": \"2024-09-23\",\r\n    \"start_time\": \"12:00:00\",\r\n    \"end_time\": \"18:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/events/4ca36369-3e92-4847-9ad3-cf8ac76117b9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"events",
+								"4ca36369-3e92-4847-9ad3-cf8ac76117b9"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -431,6 +470,333 @@
 								"events",
 								"40c912b5-a90a-4670-888e-a04b693813d4",
 								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Comment Image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"thumbnail\": \"C:/Users/USER/Pictures/Coding/status code.PNG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/events/comments/1c61e308-8535-45f6-bc53-587b34e98f3a/thumbnail",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"events",
+								"comments",
+								"1c61e308-8535-45f6-bc53-587b34e98f3a",
+								"thumbnail"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Group",
+			"item": [
+				{
+					"name": "Create Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Something\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/groups",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Groups",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/groups",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Group",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/groups/8dee0316-a817-437d-b904-70d1bcbd311c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"groups",
+								"8dee0316-a817-437d-b904-70d1bcbd311c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Let's Partyyy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/groups/8dee0316-a817-437d-b904-70d1bcbd311c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"groups",
+								"8dee0316-a817-437d-b904-70d1bcbd311c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/groups/8dee0316-a817-437d-b904-70d1bcbd311c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"groups",
+								"8dee0316-a817-437d-b904-70d1bcbd311c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Members to Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/groups/2c5327c8-dcb1-44e9-bb1d-cbdd407c73de/members/dd9436a5-c300-4b94-aecd-676a5d608fbc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"groups",
+								"2c5327c8-dcb1-44e9-bb1d-cbdd407c73de",
+								"members",
+								"dd9436a5-c300-4b94-aecd-676a5d608fbc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Members from Group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/groups/8dee0316-a817-437d-b904-70d1bcbd311c/members/dd9436a5-c300-4b94-aecd-676a5d608fbc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"groups",
+								"8dee0316-a817-437d-b904-70d1bcbd311c",
+								"members",
+								"dd9436a5-c300-4b94-aecd-676a5d608fbc"
 							]
 						}
 					},
