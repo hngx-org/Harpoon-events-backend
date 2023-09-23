@@ -87,3 +87,53 @@ exports.getImagesfromComments = async (req) => {
 
   return commentImages;
 };
+
+/**
+ * Like a comment.
+ *
+ * @param {Object} req - The request object containing the comment ID and user ID.
+ * @returns {Promise<Object>} A promise that resolves to a success message.
+ * @throws {AppError} If the user has already liked the comment.
+ */
+exports.likeComment = async (req) => {
+  /** @type {number} */
+  const commentId = req.params.commentId;
+  /** @type {string} */
+  const userId = req.user.id.toString(); // Convert to string
+
+  /** @type {Object} */
+  const comment = await Comment.findByPk(commentId);
+  if (comment.likes.includes(userId)) {
+    throw new AppError('You have already liked this comment', 400);
+  }
+
+  comment.likes.push(userId);
+  await comment.save();
+
+  return { message: 'Comment liked successfully' };
+};
+
+/**
+ * Unlike a comment.
+ *
+ * @param {Object} req - The request object containing the comment ID and user ID.
+ * @returns {Promise<Object>} A promise that resolves to a success message.
+ * @throws {AppError} If the user hasn't liked the comment.
+ */
+exports.unlikeComment = async (req) => {
+  /** @type {number} */
+  const commentId = req.params.commentId;
+  /** @type {string} */
+  const userId = req.user.id.toString(); // Convert to string
+
+  /** @type {Object} */
+  const comment = await Comment.findByPk(commentId);
+  if (!comment.likes.includes(userId)) {
+    throw new AppError("You haven't liked this comment", 400);
+  }
+
+  comment.likes = comment.likes.filter(id => id !== userId);
+  await comment.save();
+
+  return { message: 'Comment unliked successfully' };
+};
