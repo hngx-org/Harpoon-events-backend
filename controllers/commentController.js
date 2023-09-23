@@ -1,6 +1,7 @@
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const CommentService = require('./../services/comment.service');
+const LikeController = require('./like.controller');
 
 exports.createComment = catchAsync(async (req, res, next) => {
   const comment = await CommentService.createComment(req);
@@ -37,3 +38,23 @@ exports.getImagesfromComments = catchAsync(async (req, res, next) => {
     image: commentImages.Images,
   });
 });
+
+/**
+ * Like a comment.
+ *
+ * @param {Object} req - The request object containing the comment ID.
+ * @param {Object} res - The response object.
+ * @param {function} next - The next middleware function.
+ * @returns {Promise<void>} - A promise that resolves when the comment is liked.
+ */
+exports.likeComment = LikeController.likeComment;
+
+/**
+ * Unlike a comment.
+ *
+ * @param {Object} req - The request object containing the comment ID.
+ * @param {Object} res - The response object.
+ * @param {function} next - The next middleware function.
+ * @returns {Promise<void>} - A promise that resolves when the comment is unliked.
+ */
+exports.unlikeComment = LikeController.unlikeComment;
