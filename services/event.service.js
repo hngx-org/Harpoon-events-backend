@@ -1,3 +1,4 @@
+const { Sequelize } = require('sequelize');
 const db = require('../models');
 const AppError = require('../utils/appError');
 
@@ -5,6 +6,7 @@ const Event = db.events;
 const Comment = db.comments;
 const Group = db.groups;
 const GroupEvent = db.groupEvents;
+const LikeComment = db.likes;
 
 const ThumbNail = db.eventThumbnail;
 
@@ -74,6 +76,8 @@ exports.deleteEvent = async (eventId, req) => {
     throw new AppError('Access to delete event not granted.');
   }
 
+  // delete comments associated with event
+  await Comment.destroy({ where: { event_id: eventId } });
   return await Event.destroy({
     where: { id: eventId },
   });
@@ -133,13 +137,23 @@ exports.updateEvent = async (eventId, req) => {
  */
 exports.getSingleEvent = async (eventId) => {
   const event = await Event.findByPk(eventId);
-  const comments = await Comment.findAll({ where: { event_id: eventId } });
 
   if (!event) {
     throw new AppError('Event not found', 404);
   }
 
-  return { ...event.dataValues, comments };
+  const comments = await Comment.findAll({ where: { event_id: eventId } });
+  const commentIds = comments.map((each) => each.id);
+  const likes = await LikeComment.findAll({
+    attributes: [
+      'comment_id',
+      [Sequelize.fn('COUNT', Sequelize.col('*')), 'like_count'],
+    ],
+    where: { comment_id: comments.map((each) => each.id) },
+    group: ['comment_id'],
+  });
+
+  return { ...event.dataValues, comments, likes };
 };
 
 /**
