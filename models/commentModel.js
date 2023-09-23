@@ -25,6 +25,11 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+
+  likes: {
+    type: Sequelize.ARRAY(Sequelize.STRING ),
+    defaultValue: [],
+  },
   });
 
   Comment.associate = (models) => {
