@@ -12,6 +12,7 @@ const AppError = require('../utils/appError');
 const upload = multer({ dest: 'uploads/' });
 
 const Comment = db.comments;
+const LikeComment = db.likes;
 const Image = db.images;
 
 /**
@@ -112,6 +113,23 @@ exports.likeComment = async (req) => {
 
   return { message: 'Comment liked successfully' };
 };
+/**
+this should work for the existing like-model
+exports.likeComment = async (req) => {
+  const commentId = req.params.commentId;
+  const userId = req.user.id;
+  
+  // Create a new like entry
+  await LikeComment.create({
+    user_id: userId,
+    comment_id: commentId,
+  });
+  
+  return { message: 'Comment liked successfully' };
+};
+
+**/
+
 
 /**
  * Unlike a comment.
@@ -137,3 +155,24 @@ exports.unlikeComment = async (req) => {
 
   return { message: 'Comment unliked successfully' };
 };
+
+
+/**
+exports.unlikeComment = async (req) => {
+  const commentId = req.params.commentId;
+  const userId = req.user.id;
+  
+  // Find and delete the like entry
+  const likeEntry = await LikeComment.findOne({
+    where: { user_id: userId, comment_id: commentId },
+  });
+
+  if (likeEntry) {
+    await likeEntry.destroy();
+    return { message: 'Comment unliked successfully' };
+  } else {
+    throw new AppError("You haven't liked this comment", 400);
+  }
+};
+
+**/
