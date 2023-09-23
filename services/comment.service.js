@@ -9,11 +9,11 @@
 const multer = require('multer');
 const db = require('../models');
 const AppError = require('../utils/appError');
-const upload = multer({ dest: 'uploads/' });
 
 const Comment = db.comments;
 const LikeComment = db.likes;
 const Image = db.images;
+const Event = db.events;
 
 /**
  * Create a new comment.
@@ -26,6 +26,12 @@ exports.createComment = async (req) => {
   const event_id = req.params.eventId;
   const user_id = req.user.id;
   const { body } = req.body;
+  const event = await Event.findByPk(event_id);
+
+  if (!event) {
+    throw new AppError('Event not found', 404);
+  }
+
   const comment = await Comment.create({ event_id, body, user_id });
 
   if (!comment) {
@@ -54,8 +60,6 @@ exports.getAllComments = async (event_id) => {
 exports.addImageToComments = async (req) => {
   const commentId = req.params.commentId;
   const { thumbnail } = req.body;
-
-
 
   const newImage = await Image.create({
     url: thumbnail,
