@@ -41,7 +41,9 @@ exports.getAllGroups = catchAsync(async (req, res, next) => {
 
 // Controller for fetching a single group by ID
 exports.getGroupById = catchAsync(async (req, res, next) => {
-  const group = await GroupService.getGroupById(req);
+  const group = await GroupService.getSingleGroup(req);
+
+  console.log(group);
   res.status(200).json({
     status: 'success',
     group,
