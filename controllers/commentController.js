@@ -1,6 +1,7 @@
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const CommentService = require('./../services/comment.service');
+const LikeController = require('./like.controller')
 
 /**
  * Create a new comment.
