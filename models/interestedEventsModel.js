@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     // No need to define an 'id' column, as Sequelize will create it automatically for many-to-many associations
     event_id: {
       type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'events',
@@ -12,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     user_id: {
       type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
       references: {
         model: 'users',
@@ -33,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       as: 'user',
     });
   };
+
+  InterestedEvent.removeAttribute('id');
 
   return InterestedEvent;
 };

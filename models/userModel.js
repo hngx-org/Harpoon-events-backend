@@ -20,12 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true,
       },
     },
-    password: {
-      type: DataTypes.STRING,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: true,
-    },
-    image: {
+    avatar: {
       type: DataTypes.STRING,
     },
   });
@@ -41,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
 
     // User relationship with Event
     User.hasMany(models.Event, {
-      foreignKey: 'creator',
+      foreignKey: 'creator_id',
     });
     models.Event.belongsTo(User);
 

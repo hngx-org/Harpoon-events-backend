@@ -15,12 +15,12 @@ const signToken = (id) => {
 
 // signup user
 exports.signup = catchAsync(async (req, res, next) => {
-  const { name, email, image, password, id } =
+  const { name, email, avatar, password } =
     await signupValidationSchema.validateAsync(req.body);
   const user = await UserService.signup({
     name,
     email,
-    image,
+    avatar,
     password,
   });
 
@@ -65,9 +65,9 @@ exports.login = catchAsync(async (req, res, next) => {
 
 //  signup/login with twitter
 exports.Twitter = catchAsync(async (req, res, next) => {
-  const { name, email, image } = req.body;
+  const { name, email, avatar } = req.body;
 
-  const user = await UserService.Twitter({ name, email, image });
+  const user = await UserService.Twitter({ name, email, avatar });
   if (user) {
     const token = signToken(user.id);
 
@@ -79,15 +79,15 @@ exports.Twitter = catchAsync(async (req, res, next) => {
         expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
-      .json({ ...user, token });
+      .json({ status: 'success', user, token });
   }
 });
 
-// signup/login with twitter
+// signup/login with google
 exports.Google = catchAsync(async (req, res, next) => {
-  const { name, email, image } = req.body;
+  const { name, email, avatar } = req.body;
 
-  const user = await UserService.Twitter({ name, email, image });
+  const user = await UserService.Google({ name, email, avatar });
   if (user) {
     const token = signToken(user.id);
 
@@ -99,6 +99,6 @@ exports.Google = catchAsync(async (req, res, next) => {
         expiresIn: process.env.JWT_SECRET,
       })
       .status(201)
-      .json({ ...user, token });
+      .json({ status: 'success', user, token });
   }
 });

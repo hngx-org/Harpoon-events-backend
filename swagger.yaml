@@ -1,0 +1,246 @@
+openapi: 3.0.0
+info:
+  title: Team Harpoon
+  version: 1.0.0
+servers:
+  - url: http://web-01.okoth.tech/api/v1
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Auth
+  - name: User
+  - name: Event
+  - name: Comment
+paths:
+  /users/signup:
+    post:
+      tags:
+        - Auth
+      summary: Sign Up
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Savadoww
+                email: savadow@example.com
+                password: secret
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/google:
+    post:
+      tags:
+        - Auth
+      summary: Google
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Savadow
+                email: savadow@example.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/twitter:
+    post:
+      tags:
+        - Auth
+      summary: Twitter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Savadow
+                email: savadow@example.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/{user_id}:
+    get:
+      tags:
+        - User
+      summary: Get User
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - User
+      summary: Update User
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Nedum
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /events:
+    get:
+      tags:
+        - Event
+      summary: Get All Events
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Event
+      summary: Create Event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Savadow's Event
+                description: Come chill with me
+                location: PH
+                start_date: '2023-09-22'
+                end_date: '2023-09-23'
+                start_time: '12:00:00'
+                end_time: '18:00:00'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /events/{event_id}:
+    get:
+      tags:
+        - Event
+      summary: Get Single Event
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the event
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Event
+      summary: Update Event
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Pool Party
+                description: Let's get soaked
+                location: Lag
+                start_date: '2024-09-22'
+                end_date: '2024-09-23'
+                start_time: '12:00:00'
+                end_time: '18:00:00'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /events/{event_id}/comments:
+    get:
+      tags:
+        - Comment
+      summary: Get Comments
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the event
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Comment
+      summary: Add Comment
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                body: Trash
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

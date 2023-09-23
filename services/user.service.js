@@ -12,7 +12,7 @@ const UserModel = db.users;
 // create main model
 module.exports.UserModel = db.users;
 
-exports.signup = async ({ name, email, image, password }) => {
+exports.signup = async ({ name, email, avatar, password }) => {
   const existingUser = await UserModel.findOne({ where: { email } });
   if (existingUser) {
     throw new AppError('This user already exists', 400);
@@ -22,7 +22,7 @@ exports.signup = async ({ name, email, image, password }) => {
   return await UserModel.create({
     name,
     email,
-    image,
+    avatar,
     password: hashedPassword,
   });
 };
@@ -48,26 +48,26 @@ exports.login = async ({ email, password }) => {
   return validUser;
 };
 
-exports.Google = async ({ name, email, image }) => {
+exports.Google = async ({ name, email, avatar }) => {
   const user = await UserModel.findOne({ where: { email } });
   if (!user) {
     return await UserModel.create({
       name,
       email,
-      image,
+      avatar,
     });
   } else {
     return user;
   }
 };
 
-exports.Twitter = async ({ name, email, image }) => {
+exports.Twitter = async ({ name, email, avatar }) => {
   const user = await UserModel.findOne({ where: { email } });
   if (!user) {
     return await UserModel.create({
       name,
       email,
-      image,
+      avatar,
     });
   } else {
     return user;
@@ -81,7 +81,7 @@ exports.Twitter = async ({ name, email, image }) => {
  * @param {object} req - The request object containing updated user details.
  * @param {string} req.body.name - The updated name of the user.
  * @param {string} req.body.email - The updated email of the user.
- * @param {string} req.body.image - The updated image of the user.
+ * @param {string} req.body.avatar - The updated avatar of the user.
  * @returns {Promise<Object|null>} A promise that resolves to the updated event object or null if not found.
  * @throws {AppError} If the event is not found or the user doesn't have access to update the event.
  */
@@ -96,7 +96,7 @@ exports.updateUser = async (userId, req) => {
   const updatedInfo = {
     name: req.body.name,
     email: req.body.email,
-    image: req.body.image,
+    avatar: req.body.avatar,
   };
 
   // Update the details of the user
@@ -126,6 +126,7 @@ exports.getUser = async (userId) => {
   return user;
 };
 
+
 // express interest in an event
 exports.interestedEvent = async (params) => {
   const interested = await InterestedEvent.create({
@@ -139,7 +140,7 @@ exports.interestedEvent = async (params) => {
   throw new AppError('interest in event not created successfully', 400);
 };
 
-exports.reomveInterest = async (params) => {
+exports.removeInterest = async (params) => {
   const interested = await InterestedEvent.destroy({
     where: {
       [Op.and]: [
@@ -153,20 +154,19 @@ exports.reomveInterest = async (params) => {
     },
   });
 
-  console.log('removed', interested);
   if (interested == 0) {
     return {
       message:
-        'Event might not exist or you previously had not shown intrest in this event',
+        'Event might not exist or you previously had not shown interest in this event',
     };
   }
   if (interested >= 1) {
-    //while greater than is beacuse, ordinarily the DB should be structured in way you wont show interest more than once
-    //composite uniquie of user_id and event_id
+    //while greater than is because, ordinarily the DB should be structured in way you wont show interest more than once
+    //composite unique of user_id and event_id
     //so change might more than one row might have got destroyed reason for a greater than one instaed of just ==1
-    //succesfully removed interest
+    //successfully removed interest
     return {
-      message: 'Interest sucessfully removed',
+      message: 'Interest successfully removed',
     };
   } else {
     throw new AppError('interest in event not created successfully', 400);

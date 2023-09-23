@@ -33,5 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  CommentImages.removeAttribute('id');
+
   return CommentImages;
 };

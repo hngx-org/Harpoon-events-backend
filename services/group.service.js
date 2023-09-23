@@ -37,15 +37,13 @@ exports.addUserToGroup = async (req) => {
   }
 
   const updatedInfo = { user_id: userId, group_id: groupId };
-  await UserGroup.update(updatedInfo, {
-    where: { id: groupId },
+  return await UserGroup.update(updatedInfo, {
+    where: { group_id: groupId },
   });
-
-  return await Group.findByPk(eventId);
 };
 
 exports.createGroup = async (req) => {
-  const group = await Group.create({ title: req.title });
+  const group = await Group.create({ title: req.body.title });
   if (!group) {
     throw new AppError('Group creation not successful', 400);
   }
@@ -83,11 +81,11 @@ exports.updateGroupById = async (req) => {
       title,
     },
     {
-      where: { id: eventId },
+      where: { id: groupId },
     }
   );
 
-  return await Group.findByPk(eventId);
+  return await Group.findByPk(groupId);
 };
 
 exports.deleteGroupById = async (req, res, next) => {
