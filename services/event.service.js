@@ -3,6 +3,9 @@ const AppError = require('../utils/appError');
 
 const Event = db.events;
 const Comment = db.comments;
+const Group = db.groups;
+const GroupEvent = db.groupEvents;
+
 const ThumbNail = db.eventThumbnail;
 
 /**
@@ -18,10 +21,12 @@ const ThumbNail = db.eventThumbnail;
  * @param {string} req.body.start_date - The start date of the event.
  * @param {string} req.body.end_date - The end date of the event.
  * @param {string} req.body.image - The image URL for the event.
+ * @param {string} req.body.group_id - The group id that the event would belong to.
  * @returns {Promise<Object>} A promise that resolves to the created event object.
  * @throws {AppError} If the event creation is not successful.
  */
 exports.createEvent = async (req) => {
+  const { group_id } = req.body;
   const info = {
     title: req.body.title,
     description: req.body.description,
@@ -32,7 +37,14 @@ exports.createEvent = async (req) => {
     start_date: req.body.start_date,
     end_date: req.body.end_date,
   };
+  const group = await Group.findByPk(req.body.group_id);
+
+  if (!group) {
+    throw new AppError('Group does not exist', 404);
+  }
+
   const event = await Event.create(info);
+  await GroupEvent.create({ group_id, event_id: event.id });
 
   if (!event) {
     throw new AppError('Event not created successfully', 400);
