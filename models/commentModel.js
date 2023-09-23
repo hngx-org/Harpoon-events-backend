@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       },
     },
+
+  
   });
 
   Comment.associate = (models) => {
