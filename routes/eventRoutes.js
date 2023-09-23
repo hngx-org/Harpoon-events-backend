@@ -10,13 +10,14 @@ const multer = require('multer');
  *      required:
  *        - title
  *        - description
- *        - creator
+ *        - creator_id
  *        - location
  *        - start_time
  *        - end_time
  *        - start_date
  *        - end_date
  *        - image
+ *        - group_id
  *      properties:
  *        id:
  *          type: string 
@@ -24,7 +25,7 @@ const multer = require('multer');
  *          type: string          
  *        description:
  *          type: string
- *        creator:
+ *        creator_id:
  *          type: string
  *        location:
  *          type: string
@@ -37,6 +38,8 @@ const multer = require('multer');
  *        end_date:
  *          type: string
  *        image:
+ *          type: string
+ *        group_id:
  *          type: string
  * 
  */
