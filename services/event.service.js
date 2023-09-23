@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const db = require('../models');
 const AppError = require('../utils/appError');
+const { ADDRGETNETWORKPARAMS } = require('dns');
 
 const Event = db.events;
 const Comment = db.comments;
@@ -8,7 +9,8 @@ const Group = db.groups;
 const GroupEvent = db.groupEvents;
 const LikeComment = db.likes;
 
-const ThumbNail = db.eventThumbnail;
+const EventThumNail = db.eventThumbnail;
+const Image = db.images;
 
 /**
  * Creates a new event.
@@ -143,7 +145,17 @@ exports.getSingleEvent = async (eventId) => {
   }
 
   const comments = await Comment.findAll({ where: { event_id: eventId } });
-  const commentIds = comments.map((each) => each.id);
+  const eventThumNail = await EventThumNail.findOne({
+    where: { event_id: eventId },
+  });
+
+  let thumbnail;
+  if (!eventThumNail) {
+    thumbnail = null;
+  } else {
+    thumbnail = await Image.findByPk(eventThumNail.image_id);
+  }
+
   const likes = await LikeComment.findAll({
     attributes: [
       'comment_id',
@@ -153,7 +165,7 @@ exports.getSingleEvent = async (eventId) => {
     group: ['comment_id'],
   });
 
-  return { ...event.dataValues, comments, likes };
+  return { ...event.dataValues, comments, likes, thumbnail };
 };
 
 /**
@@ -164,4 +176,25 @@ exports.getSingleEvent = async (eventId) => {
 exports.getAllEvents = async () => {
   const events = await Event.findAll();
   return events;
+};
+
+exports.addThumbNailToEvent = async (req) => {
+  const url = req.body.url;
+  const event_id = req.params.eventId;
+
+  if (!url || !event_id) {
+    throw new AppError('Supply image url and eventId', 400);
+  }
+
+  const image = await Image.create({ url });
+  if (!image) {
+    throw new AppError('Image creation unsuccessful', 400);
+  }
+
+  const eventThumbNail = await EventThumNail.create({
+    image_id: image.id,
+    event_id,
+  });
+
+  return { image, eventThumbNail };
 };
