@@ -14,6 +14,7 @@ tags:
   - name: User
   - name: Event
   - name: Comment
+  - name: Group
 paths:
   /users/signup:
     post:
@@ -237,6 +238,179 @@ paths:
               type: object
               example:
                 body: Trash
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /events/comments/{comment_id}/thumbnail:
+    post:
+      tags:
+        - Comment
+      summary: Add Comment Image
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                thumbnail: C:/Users/USER/Pictures/Coding/status code.PNG
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /groups:
+    post:
+      tags:
+        - Group
+      summary: Create Group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Something
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Group
+      summary: Get All Groups
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /groups/{group_id}:
+    get:
+      tags:
+        - Group
+      summary: Get Single Group
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the group
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Group
+      summary: Update Group
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Let's Partyyy
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Group
+      summary: Delete Group
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the group
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /groups/{group_id}/members/{user_id}:
+    post:
+      tags:
+        - Group
+      summary: Add Members to Group
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the group
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the user to add to the group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Group
+      summary: Delete Members from Group
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the group
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the user to remove from the group
       security:
         - bearerAuth: []
       responses:
