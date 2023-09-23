@@ -20,9 +20,9 @@ const multer = require('multer');
  *        - group_id
  *      properties:
  *        id:
- *          type: string 
+ *          type: string
  *        title:
- *          type: string          
+ *          type: string
  *        description:
  *          type: string
  *        creator_id:
@@ -41,22 +41,22 @@ const multer = require('multer');
  *          type: string
  *        group_id:
  *          type: string
- * 
+ *
  */
 const {
   getAllEvent,
   createEvent,
   getSingleEvent,
   updateEvent,
-  deleteEvent
+  deleteEvent,
 } = require('../controllers/eventController');
 const {
   createComment,
   getAllComments,
   addImageToComments,
-  getImagesfromComments
+  getImagesfromComments,
+  likeComment,
 } = require('../controllers/commentController');
-
 
 const requireAuth = require('../middleware/requireAuth');
 
@@ -66,10 +66,7 @@ const upload = multer({ dest: 'uploads/' });
 router.use(requireAuth);
 
 // Event routes
-router
-  .route('/')
-  .get(getAllEvent)
-  .post(createEvent);
+router.route('/').get(getAllEvent).post(createEvent);
 
 router
   .route('/:eventId')
@@ -77,98 +74,91 @@ router
   .put(updateEvent)
   .delete(deleteEvent);
 
-
 // Comments Routes
-router
-  .route('/:eventId/comments')
-  .post(createComment)
-  .get(getAllComments);
+router.route('/:eventId/comments').post(createComment).get(getAllComments);
 // Update a Comment:
 //Delete a Comment:
 
-
-
 /**
-* @swagger
-*
-*  /api/v1/events/comments/{commentId}/images:
-*    get:
-*      security:
-*       - bearerAuth: []
-*      summary: Get images for a comment
-*      tags:
-*        - Events
-*      parameters:
-*        - in: path
-*          name: commentId
-*          required: true
-*          schema:
-*            type: string
-*      responses:
-*        200:
-*          description: Successful response
-*        404:
-*          description: Images not found
-*        500:
-*          description: Server Error
-*          content:
-*            application/json:
-*             schema:
-*               type: object
-*               items:
-*                   $ref: '#/components/schemas/Events'
+ * @swagger
+ *
+ *  /api/v1/events/comments/{commentId}/images:
+ *    get:
+ *      security:
+ *       - bearerAuth: []
+ *      summary: Get images for a comment
+ *      tags:
+ *        - Events
+ *      parameters:
+ *        - in: path
+ *          name: commentId
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+ *        200:
+ *          description: Successful response
+ *        404:
+ *          description: Images not found
+ *        500:
+ *          description: Server Error
+ *          content:
+ *            application/json:
+ *             schema:
+ *               type: object
+ *               items:
+ *                   $ref: '#/components/schemas/Events'
  */
 
 /**
-* @swagger
-*  /api/v1/events/comments/{commentId}/likes/{userId}:
-*    post:
-*      summary: Add like to a comment
-*      tags:
-*        - Events
-*      parameters:
-*        - in: path
-*          name: commentId
-*          required: true
-*          schema:
-*            type: string
-*        - in: path
-*          name: userId
-*          required: true
-*          schema:
-*            type: string
-*      responses:
-*        '200':
-*          description: Likes Added Successfully
-*          content:
-*            application/json:
+ * @swagger
+ *  /api/v1/events/comments/{commentId}/likes/{userId}:
+ *    post:
+ *      summary: Add like to a comment
+ *      tags:
+ *        - Events
+ *      parameters:
+ *        - in: path
+ *          name: commentId
+ *          required: true
+ *          schema:
+ *            type: string
+ *        - in: path
+ *          name: userId
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+ *        '200':
+ *          description: Likes Added Successfully
+ *          content:
+ *            application/json:
  */
 
 /**
-* @swagger
-*  /api/comments/{commentId}/likes/{userId}:
-*    delete:
-*      summary: Remove like from a comment
-*      tags:
-*        - Events
-*      parameters:
-*        - in: path
-*          name: commentId
-*          required: true
-*          schema:
-*            type: string
-*        - in: path
-*          name: userId
-*          required: true
-*          schema:
-*            type: string
-*      responses:
-*        '200':
-*          description: Likes Added Successfully
-*          content:
-*            application/json:
+ * @swagger
+ *  /api/comments/{commentId}/likes/{userId}:
+ *    delete:
+ *      summary: Remove like from a comment
+ *      tags:
+ *        - Events
+ *      parameters:
+ *        - in: path
+ *          name: commentId
+ *          required: true
+ *          schema:
+ *            type: string
+ *        - in: path
+ *          name: userId
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+ *        '200':
+ *          description: Likes Added Successfully
+ *          content:
+ *            application/json:
  */
-
 
 // comments with images
 router
@@ -176,4 +166,6 @@ router
   .post(addImageToComments)
   .get(getImagesfromComments);
 
+// comments with images
+router.route('/likes/:commentId').post(likeComment);
 module.exports = router;
