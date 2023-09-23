@@ -39,7 +39,7 @@ exports.unlikeComment = async (req) => {
   const { userId } = req.body;
 
   // Find and delete the existing like
-  await db.Like.destroy({
+  await db.likes.destroy({
     where: { comment_id: commentId, user_id: userId },
   });
 };

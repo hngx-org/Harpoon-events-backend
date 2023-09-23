@@ -51,7 +51,9 @@ const {
   createComment,
   getAllComments,
   addImageToComments,
-  getImagesfromComments
+  getImagesfromComments,
+  likeComment,
+  unlikeComment,
 } = require('../controllers/commentController');
 
 
@@ -166,6 +168,65 @@ router
 *            application/json:
  */
 
+
+
+// Like a Comment
+/**
+ * @swagger
+ * /api/v1/events/comments/{commentId}/likes:
+ *   post:
+ *     summary: Like a comment
+ *     tags:
+ *       - Comments
+ *     parameters:
+ *       - in: path
+ *         name: commentId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Comment liked successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 message:
+ *                   type: string
+ */
+router.post('/comments/:commentId/likes', likeComment);
+
+// Unlike a Comment
+/**
+ * @swagger
+ * /api/v1/events/comments/{commentId}/likes:
+ *   delete:
+ *     summary: Unlike a comment
+ *     tags:
+ *       - Comments
+ *     parameters:
+ *       - in: path
+ *         name: commentId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Comment unliked successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 message:
+ *                   type: string
+ */
+router.delete('/comments/:commentId/likes', unlikeComment);
 
 // comments with images
 router
