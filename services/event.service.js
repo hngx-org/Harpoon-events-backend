@@ -1,9 +1,16 @@
+const { Sequelize } = require('sequelize');
 const db = require('../models');
 const AppError = require('../utils/appError');
+const { ADDRGETNETWORKPARAMS } = require('dns');
 
 const Event = db.events;
 const Comment = db.comments;
-const ThumbNail = db.eventThumbnail;
+const Group = db.groups;
+const GroupEvent = db.groupEvents;
+const LikeComment = db.likes;
+
+const EventThumNail = db.eventThumbnail;
+const Image = db.images;
 
 /**
  * Creates a new event.
@@ -18,10 +25,12 @@ const ThumbNail = db.eventThumbnail;
  * @param {string} req.body.start_date - The start date of the event.
  * @param {string} req.body.end_date - The end date of the event.
  * @param {string} req.body.image - The image URL for the event.
+ * @param {string} req.body.group_id - The group id that the event would belong to.
  * @returns {Promise<Object>} A promise that resolves to the created event object.
  * @throws {AppError} If the event creation is not successful.
  */
 exports.createEvent = async (req) => {
+  const { group_id } = req.body;
   const info = {
     title: req.body.title,
     description: req.body.description,
@@ -32,7 +41,14 @@ exports.createEvent = async (req) => {
     start_date: req.body.start_date,
     end_date: req.body.end_date,
   };
+  const group = await Group.findByPk(req.body.group_id);
+
+  if (!group) {
+    throw new AppError('Group does not exist', 404);
+  }
+
   const event = await Event.create(info);
+  await GroupEvent.create({ group_id, event_id: event.id });
 
   if (!event) {
     throw new AppError('Event not created successfully', 400);
@@ -62,6 +78,8 @@ exports.deleteEvent = async (eventId, req) => {
     throw new AppError('Access to delete event not granted.');
   }
 
+  // delete comments associated with event
+  await Comment.destroy({ where: { event_id: eventId } });
   return await Event.destroy({
     where: { id: eventId },
   });
@@ -121,13 +139,33 @@ exports.updateEvent = async (eventId, req) => {
  */
 exports.getSingleEvent = async (eventId) => {
   const event = await Event.findByPk(eventId);
-  const comments = await Comment.findAll({ where: { event_id: eventId } });
 
   if (!event) {
     throw new AppError('Event not found', 404);
   }
 
-  return { ...event.dataValues, comments };
+  const comments = await Comment.findAll({ where: { event_id: eventId } });
+  const eventThumNail = await EventThumNail.findOne({
+    where: { event_id: eventId },
+  });
+
+  let thumbnail;
+  if (!eventThumNail) {
+    thumbnail = null;
+  } else {
+    thumbnail = await Image.findByPk(eventThumNail.image_id);
+  }
+
+  const likes = await LikeComment.findAll({
+    attributes: [
+      'comment_id',
+      [Sequelize.fn('COUNT', Sequelize.col('*')), 'like_count'],
+    ],
+    where: { comment_id: comments.map((each) => each.id) },
+    group: ['comment_id'],
+  });
+
+  return { ...event.dataValues, comments, likes, thumbnail };
 };
 
 /**
@@ -138,4 +176,25 @@ exports.getSingleEvent = async (eventId) => {
 exports.getAllEvents = async () => {
   const events = await Event.findAll();
   return events;
+};
+
+exports.addThumbNailToEvent = async (req) => {
+  const url = req.body.url;
+  const event_id = req.params.eventId;
+
+  if (!url || !event_id) {
+    throw new AppError('Supply image url and eventId', 400);
+  }
+
+  const image = await Image.create({ url });
+  if (!image) {
+    throw new AppError('Image creation unsuccessful', 400);
+  }
+
+  const eventThumbNail = await EventThumNail.create({
+    image_id: image.id,
+    event_id,
+  });
+
+  return { image, eventThumbNail };
 };

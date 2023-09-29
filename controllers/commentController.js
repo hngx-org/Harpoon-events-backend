@@ -77,16 +77,11 @@ exports.getImagesfromComments = catchAsync(async (req, res, next) => {
  * @param {function} next - The next middleware function.
  * @returns {Promise<void>} - A promise that resolves when the comment is liked.
  */
-exports.likeComment = LikeController.likeComment;
+exports.likeComment = catchAsync(async (req, res, next) => {
+  const result = await CommentService.likeComment(req);
 
-/**
- * Unlike a comment.
- *
- * @param {Object} req - The request object containing the comment ID.
- * @param {Object} res - The response object.
- * @param {function} next - The next middleware function.
- * @returns {Promise<void>} - A promise that resolves when the comment is unliked.
- */
-exports.unlikeComment = LikeController.unlikeComment;
-
-
+  res.status(201).json({
+    status: 'success',
+    likes: result,
+  });
+});

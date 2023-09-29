@@ -9,11 +9,11 @@
 const multer = require('multer');
 const db = require('../models');
 const AppError = require('../utils/appError');
-const upload = multer({ dest: 'uploads/' });
 
 const Comment = db.comments;
 const LikeComment = db.likes;
 const Image = db.images;
+const Event = db.events;
 
 /**
  * Create a new comment.
@@ -26,6 +26,12 @@ exports.createComment = async (req) => {
   const event_id = req.params.eventId;
   const user_id = req.user.id;
   const { body } = req.body;
+  const event = await Event.findByPk(event_id);
+
+  if (!event) {
+    throw new AppError('Event not found', 404);
+  }
+
   const comment = await Comment.create({ event_id, body, user_id });
 
   if (!comment) {
@@ -54,8 +60,6 @@ exports.getAllComments = async (event_id) => {
 exports.addImageToComments = async (req) => {
   const commentId = req.params.commentId;
   const { thumbnail } = req.body;
-
-
 
   const newImage = await Image.create({
     url: thumbnail,
@@ -97,82 +101,27 @@ exports.getImagesfromComments = async (req) => {
  * @throws {AppError} If the user has already liked the comment.
  */
 exports.likeComment = async (req) => {
-  /** @type {number} */
-  const commentId = req.params.commentId;
-  /** @type {string} */
-  const userId = req.user.id.toString(); // Convert to string
-
-  /** @type {Object} */
-  const comment = await Comment.findByPk(commentId);
-  if (comment.likes.includes(userId)) {
-    throw new AppError('You have already liked this comment', 400);
-  }
-
-  comment.likes.push(userId);
-  await comment.save();
-
-  return { message: 'Comment liked successfully' };
-};
-/**
-this should work for the existing like-model
-exports.likeComment = async (req) => {
   const commentId = req.params.commentId;
   const userId = req.user.id;
-  
-  // Create a new like entry
-  await LikeComment.create({
-    user_id: userId,
-    comment_id: commentId,
-  });
-  
-  return { message: 'Comment liked successfully' };
-};
 
-**/
-
-
-/**
- * Unlike a comment.
- *
- * @param {Object} req - The request object containing the comment ID and user ID.
- * @returns {Promise<Object>} A promise that resolves to a success message.
- * @throws {AppError} If the user hasn't liked the comment.
- */
-exports.unlikeComment = async (req) => {
-  /** @type {number} */
-  const commentId = req.params.commentId;
-  /** @type {string} */
-  const userId = req.user.id.toString(); // Convert to string
-
-  /** @type {Object} */
   const comment = await Comment.findByPk(commentId);
-  if (!comment.likes.includes(userId)) {
-    throw new AppError("You haven't liked this comment", 400);
+
+  if (!comment) {
+    throw new AppError('This comment does not exist', 404);
   }
 
-  comment.likes = comment.likes.filter(id => id !== userId);
-  await comment.save();
-
-  return { message: 'Comment unliked successfully' };
-};
-
-
-/**
-exports.unlikeComment = async (req) => {
-  const commentId = req.params.commentId;
-  const userId = req.user.id;
-  
-  // Find and delete the like entry
-  const likeEntry = await LikeComment.findOne({
+  const like = await LikeComment.findOne({
     where: { user_id: userId, comment_id: commentId },
   });
 
-  if (likeEntry) {
-    await likeEntry.destroy();
-    return { message: 'Comment unliked successfully' };
+  if (like) {
+    await like.destroy();
   } else {
-    throw new AppError("You haven't liked this comment", 400);
+    await LikeComment.create({ user_id: userId, comment_id: commentId });
   }
+
+  return await LikeComment.findAll({});
 };
 
-**/
+
+
