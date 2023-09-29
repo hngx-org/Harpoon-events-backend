@@ -74,6 +74,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.users = require('./userModel.js')(sequelize, DataTypes);
 db.events = require('./eventModel.js')(sequelize, DataTypes);
+db.group_events = require('./group_Events_Model')(sequelize, DataTypes);
 db.comments = require('./commentModel.js')(sequelize, DataTypes);
 db.groups = require('./groupModel.js')(sequelize, DataTypes);
 db.groupEvents = require('./group_eventsModel.js')(sequelize, DataTypes);

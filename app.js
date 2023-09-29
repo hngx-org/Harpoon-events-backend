@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const xss = require('xss-clean');
+const mongoSanitize = require('express-mongo-sanitize');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
@@ -83,7 +84,7 @@ app.use('/api', limiter);
 app.use(express.json({ limit: '10kb' }));
 
 // Data sanitization against XSS
-app.use(xss());
+//app.use(xss());
 
 //MOUNTING THE ROUTES
 app.use(`/api/v1/users`, userRouter);
